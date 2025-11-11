@@ -1,544 +1,400 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt" id="htmlRoot">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Zaralha Servers — Portal Futurista</title>
-  <meta name="description" content="Landing page moderna com visual futurista, neon e glassmorphism. Responsiva e pronta para usar." />
+  <title>ZARALHA SERVERS - Rust, Minecraft, DayZ</title>
+  <meta name="description" content="ZARALHA SERVERS - Servidores premium de Rust, Minecraft e DayZ com tecnologia de ponta" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg-1:#070912; /* base */
-      --bg-2:#0a0d1a; /* layers */
-      --card:rgba(255,255,255,0.06);
-      --border:rgba(255,255,255,0.12);
-      --text:#e6e8ff;
-      --muted:#9aa0c3;
-      --neon-1:#7c3aed; /* roxo */
-      --neon-2:#22d3ee; /* ciano */
-      --neon-3:#14f195; /* verde */
-      --accent:#60a5fa; /* azul */
-      --radius:18px;
-      --shadow:0 8px 30px rgba(0,0,0,.45), inset 0 0 0 1px var(--border);
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; color:var(--text); background:var(--bg-1);
-      font-family:"Outfit",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif;
-      line-height:1.6; overflow-x:hidden;
-      background-image: radial-gradient(60rem 60rem at -10% -20%, rgba(124,58,237,.18), transparent 40%),
-                        radial-gradient(50rem 50rem at 120% -10%, rgba(34,211,238,.14), transparent 40%),
-                        radial-gradient(60rem 60rem at 50% 120%, rgba(20,241,149,.12), transparent 45%);
-    }
-    /* Animated grid backdrop */
-    .backdrop{
-      position:fixed; inset:0; pointer-events:none; z-index:-1;
-      background-image: linear-gradient(to right, rgba(255,255,255,.06) 1px, transparent 1px),
-                        linear-gradient(to bottom, rgba(255,255,255,.06) 1px, transparent 1px);
-      background-size: 80px 80px; filter: drop-shadow(0 0 20px rgba(124,58,237,.15));
-      mask-image: radial-gradient(100% 60% at 50% -10%, black 40%, transparent 80%);
-      animation: pan 24s linear infinite;
-    }
-    @keyframes pan { to { background-position: 80px 80px; } }
-
-    /* Header */
-    header{
-      position:sticky; top:0; backdrop-filter: blur(10px);
-      background: linear-gradient(to bottom, rgba(7,9,18,.85), rgba(7,9,18,.45));
-      border-bottom:1px solid var(--border); z-index:20;
-    }
-    .container{ width:min(1200px, 92vw); margin:0 auto; }
-    .nav{ display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 0; }
-    .brand{ display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text)}
-    .logo{ width:36px; height:36px; border-radius:12px; background:
-      radial-gradient(40% 40% at 30% 30%, rgba(124,58,237,.9), transparent),
-      radial-gradient(50% 50% at 70% 60%, rgba(34,211,238,.9), transparent);
-      box-shadow:0 0 20px rgba(124,58,237,.6), 0 0 30px rgba(34,211,238,.4); }
-    .brand .name{ font-family:"Orbitron", sans-serif; letter-spacing:.06em; font-weight:800; }
-    .menu{ display:flex; align-items:center; gap:20px; }
-    .menu a{ color:var(--muted); text-decoration:none; font-weight:600; font-size:15px; }
-    .menu a:hover{ color:var(--text); }
-    .hamb{ display:none; padding:10px 12px; border:1px solid var(--border); border-radius:12px; background:var(--card); }
-
-    /* Buttons */
-    .btn{ cursor:pointer; appearance:none; border:0; padding:12px 18px; border-radius:14px; font-weight:800; letter-spacing:.02em; }
-    .btn-primary{ color:#051014; background:linear-gradient(135deg, var(--neon-2), var(--neon-3));
-      box-shadow: 0 8px 24px rgba(34,211,238,.25), inset 0 0 0 1px rgba(255,255,255,.2); }
-    .btn-primary:hover{ transform: translateY(-1px); filter:saturate(1.1); }
-    .btn-ghost{ color:var(--text); background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); border:1px solid var(--border); }
-
-    /* Hero */
-    .hero{ padding: clamp(64px, 8vw, 120px) 0 48px 0; position:relative; }
-    .badge{ display:inline-flex; align-items:center; gap:10px; padding:8px 12px; border-radius:999px; border:1px solid var(--border);
-      background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); color:var(--muted); font-weight:700; }
-    .badge b{ color:var(--text); font-weight:800; }
-    .hero h1{ font-family:"Orbitron", sans-serif; font-weight:900; letter-spacing:.02em; line-height:1.1; font-size: clamp(32px, 6vw, 64px); margin:18px 0 10px; }
-    .hero p{ max-width: 62ch; color:var(--muted); font-size: clamp(16px, 2.4vw, 18px); }
-    .hero-cta{ display:flex; gap:12px; margin-top:24px; flex-wrap:wrap; }
-
-    /* Sections */
-    section{ padding:70px 0; }
-    .section-title{ font-family:"Orbitron", sans-serif; letter-spacing:.06em; font-weight:800; font-size: clamp(20px, 3.2vw, 28px); margin-bottom:18px; }
-    .muted{ color:var(--muted); }
-
-    /* Cards */
-    .grid{ display:grid; gap:18px; }
-    .grid-3{ grid-template-columns: repeat(3, minmax(0,1fr)); }
-    .grid-2{ grid-template-columns: repeat(2, minmax(0,1fr)); }
-    .card{ background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); border:1px solid var(--border); border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); position:relative; overflow:hidden; }
-    .card:before{ content:""; position:absolute; inset:auto -20% -60% -20%; height:120%; background: radial-gradient(60% 50% at 50% 0%, rgba(124,58,237,.35), transparent 60%);
-      transform:translateY(-20%); filter: blur(30px); opacity:.3; }
-    .icon{ width:44px; height:44px; border-radius:12px; display:grid; place-items:center; margin-bottom:12px;
-      background:linear-gradient(135deg, rgba(124,58,237,.25), rgba(34,211,238,.25)); border:1px solid var(--border); box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
-    .card h3{ margin:8px 0 6px; font-size:20px; }
-
-    /* Showcase */
-    .showcase{ position:relative; }
-    .showcase .card{ min-height:220px; display:flex; flex-direction:column; justify-content:space-between; }
-    .tag{ display:inline-flex; gap:8px; align-items:center; font-weight:700; color:var(--muted); border:1px solid var(--border); padding:6px 10px; border-radius:999px; }
-
-    /* Pricing */
-    .price{ font-family:"Orbitron", sans-serif; font-size:38px; font-weight:900; letter-spacing:.04em; }
-    .features{ display:grid; gap:8px; margin:14px 0; }
-    .features li{ display:flex; gap:8px; align-items:flex-start; color:var(--muted); }
-
-    /* CTA banner */
-    .cta{
-      background: radial-gradient(130% 140% at -10% 120%, rgba(124,58,237,.25), transparent 60%),
-                  radial-gradient(100% 120% at 110% -20%, rgba(34,211,238,.25), transparent 60%),
-                  linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
-      border:1px solid var(--border); border-radius: calc(var(--radius) + 6px); padding:28px; box-shadow:var(--shadow);
-    }
-
-    /* Footer */
-    footer{ padding:40px 0; color:var(--muted); border-top:1px solid var(--border); background:linear-gradient(to top, rgba(255,255,255,.06), transparent); }
-
-    /* Mobile */
-    @media (max-width: 980px){ .grid-3{ grid-template-columns:1fr 1fr } }
-    @media (max-width: 680px){ .grid-3, .grid-2{ grid-template-columns:1fr } .menu{ display:none } .hamb{ display:inline-block } }
-
-    /* Tiny glow separators */
-    .glow{ height:1px; background:linear-gradient(90deg, transparent, rgba(124,58,237,.7), rgba(34,211,238,.7), transparent); opacity:.6; }
-
-    /* Accordions */
-    details{ background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)); border:1px solid var(--border); border-radius:var(--radius); padding:16px 18px; }
-    details + details{ margin-top:10px; }
-    summary{ cursor:pointer; font-weight:700; }
-    /* Tabs */
-    .tab-panel{ display:none }
-    .tab-panel.active{ display:block }
-    .tab-btn.active{ outline:2px solid var(--neon-2); box-shadow:0 0 20px rgba(34,211,238,.2) }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    window.API_URL = 'http://localhost:5000/api';
+  </script>
 </head>
 <body>
-  <div class="backdrop"></div>
-  <header>
-    <div class="container nav">
-      <a class="brand" href="#top">
-        <div class="logo"></div>
-        <div class="name">Zaralha</div>
-      </a>
-      <nav class="menu" aria-label="principal">
-        <a href="#servidores">Servidores</a>
-        <a href="#regras">Regras</a>
-        <a href="#downloads">Downloads</a>
-        <a href="#sobre">Sobre</a>
-        <a href="#planos">Planos</a>
-        <a href="#faq">FAQ</a>
-        <a href="#contato">Contato</a>
-        <a href="#discord">Discord</a>
-      </nav>
-      <button class="hamb" id="hamb" aria-label="Abrir menu">☰</button>
+  <!-- Animated Background -->
+  <div class="bg-animated">
+    <div class="grid-pattern"></div>
+    <div class="particles"></div>
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+  </div>
+  
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo-section">
+          <div class="logo-icon">
+            <div class="logo-glow"></div>
+            <span>Z</span>
+          </div>
+          <div class="logo-text">
+            <span class="logo-name">ZARALHA</span>
+            <span class="logo-subtitle">SERVERS</span>
+          </div>
+        </div>
+        
+        <nav class="main-nav">
+          <a href="#home" class="nav-link active">
+            <span class="nav-icon">⌂</span>
+            <span>Início</span>
+          </a>
+          <a href="#shop" class="nav-link">
+            <span class="nav-icon">⚡</span>
+            <span>Loja</span>
+          </a>
+          <a href="#downloads" class="nav-link">
+            <span class="nav-icon">⬇</span>
+            <span>Downloads</span>
+          </a>
+          <a href="#about" class="nav-link">
+            <span class="nav-icon">ℹ</span>
+            <span>Sobre</span>
+          </a>
+          <a href="#profile" id="profileBtn" class="nav-link" style="display:none;">
+            <span class="nav-icon">👤</span>
+            <span>Perfil</span>
+          </a>
+          <a href="admin/" id="adminBtn" class="nav-link admin-link" style="display:none;">
+            <span class="nav-icon">⚙</span>
+            <span>Admin</span>
+          </a>
+        </nav>
+        
+        <div class="header-actions">
+          <select id="langSelect" class="lang-select" onchange="setLanguage(this.value)">
+            <option value="pt-BR">PT</option>
+            <option value="en">EN</option>
+            <option value="es">ES</option>
+            <option value="ru">RU</option>
+          </select>
+          <div class="cart-indicator">
+            <span id="cartCount" class="cart-badge" style="display:none;">0</span>
+          </div>
+          <button class="btn-login" id="loginBtn" onclick="showLoginModal()">
+            <span>Entrar</span>
+          </button>
+          <button class="btn-logout" id="logoutBtn" onclick="logout()" style="display:none;">
+            <span>Sair</span>
+          </button>
+          <span id="userInfo" class="user-info" style="display:none;"></span>
+        </div>
+        
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
     </div>
   </header>
 
-  <main id="top">
-    <!-- HERO -->
-    <section class="hero">
+  <main>
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
       <div class="container">
-        <div class="badge">🎮 <span>Zaralha Network</span> · <b>Rust · Ark · Minecraft</b></div>
-        <h1>O portal <span style="background:linear-gradient(135deg,var(--neon-2),var(--neon-1)); -webkit-background-clip:text; background-clip:text; color:transparent;">futurista</span> da sua comunidade</h1>
-        <p>Hospedamos mundos de Rust, Ark e Minecraft com status em tempo real, integrações Discord/RCON e uma identidade neon única para a sua marca.</p>
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="#servidores">Ver servidores</a>
-          <a class="btn btn-ghost" href="#discord">Entrar no Discord</a>
-        </div>
-      </div>
-    </section>
-
-    <div class="glow"></div>
-
-    <!-- SERVIDORES (tabs) -->
-    <section id="servidores">
-      <div class="container">
-        <h2 class="section-title">Servidores</h2>
-        <p class="muted">Escolha um jogo para ver IP, status e links úteis. Os dados abaixo são placeholders — podemos ligar ao seu painel/RCON.</p>
-        <div class="tabs" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:14px;">
-          <button class="btn btn-ghost tab-btn active" data-target="#tab-rust">Rust</button>
-          <button class="btn btn-ghost tab-btn" data-target="#tab-ark">Ark</button>
-          <button class="btn btn-ghost tab-btn" data-target="#tab-mc">Minecraft</button>
-        </div>
-        <div class="tab-panel active" id="tab-rust">
-          <div class="grid grid-3">
-            <article class="card">
-              <h3>Rust — Zaralha World PVE</h3>
-              <p class="muted">IP: <b>000.000.000:28015</b> · Mapa: Procedural · Wipe: Quinzenal</p>
-              <ul class="features">
-                <li>👥 Players online: <b>—</b></li>
-                <li>🧰 Plugins: Kits, Clans, Anti‑Cheat</li>
-                <li>🔗 <a href="#downloads">Pacote de servidor</a></li>
-              </ul>
-              <a class="btn btn-primary" href="#discord">Conectar/Whitelist</a>
-            </article>
-            <article class="card">
-              <h3>Rust — Zaralha PVP</h3>
-              <p class="muted">IP: <b>000.000.000:28016</b> · Mapa: Custom · Wipe: Semanal</p>
-              <ul class="features">
-                <li>👥 Players online: <b>—</b></li>
-                <li>⚔️ Eventos: Oil Rig, Cargo, Bradley</li>
-                <li>🎁 VIP: Bronze/Prata/Ouro</li>
-              </ul>
-              <a class="btn btn-ghost" href="#regras">Regras e VIP</a>
-            </article>
-            <article class="card">
-              <h3>Rust — Status</h3>
-              <p class="muted">Mostre status ao vivo (RCON/API). Posso integrar ao seu bot.</p>
-              <ul class="features">
-                <li>📡 Latência: <b>— ms</b></li>
-                <li>🗓 Próximo wipe: <b>—</b></li>
-                <li>🧭 Seed: <b>—</b></li>
-              </ul>
-            </article>
+        <div class="hero-content">
+          <div class="hero-badge">
+            <div class="badge-pulse"></div>
+            <span class="badge-icon">⚡</span>
+            <span>Rust • Minecraft • DayZ</span>
           </div>
-        </div>
-        <div class="tab-panel" id="tab-ark">
-          <div class="grid grid-3">
-            <article class="card">
-              <h3>Ark — Zaralha PVE</h3>
-              <p class="muted">IP: <b>000.000.000:7777</b> · Mapa: Ragnarok</p>
-              <ul class="features">
-                <li>👥 Players online: <b>—</b></li>
-                <li>🦖 Mods recomendados</li>
-                <li>🔗 <a href="#downloads">Coleção Steam</a></li>
-              </ul>
-              <a class="btn btn-primary" href="#discord">Juntar‑se</a>
-            </article>
-            <article class="card">
-              <h3>Ark — Regras</h3>
-              <p class="muted">Crie um conjunto claro de regras PVE/PVP.</p>
-              <ul class="features">
-                <li>🚫 Sem griefing</li>
-                <li>✅ Comércio permitido</li>
-                <li>🛡 Proteções ativas</li>
-              </ul>
-            </article>
-            <article class="card">
-              <h3>Ark — Status</h3>
-              <p class="muted">Integração com query/Steam. Mostre slots e dinos.</p>
-              <ul class="features">
-                <li>📡 Latência: <b>— ms</b></li>
-                <li>🎯 Slots: <b>—/—</b></li>
-                <li>🧭 Mapa: <b>Ragnarok</b></li>
-              </ul>
-            </article>
+          <h1 class="hero-title">
+            <span class="title-line">
+              <span class="title-highlight">ZARALHA</span>
+            </span>
+            <span class="title-line">SERVERS</span>
+          </h1>
+          <p class="hero-description">
+            Tecnologia de ponta, performance máxima e experiência premium. 
+            <br>O futuro dos servidores de jogos está aqui.
+          </p>
+          <div class="hero-actions">
+            <a href="#shop" class="btn-primary">
+              <span>Explorar Loja</span>
+              <div class="btn-shine"></div>
+            </a>
+            <a href="#downloads" class="btn-secondary">
+              <span>Downloads</span>
+            </a>
           </div>
-        </div>
-        <div class="tab-panel" id="tab-mc">
-          <div class="grid grid-3">
-            <article class="card">
-              <h3>Minecraft — Zaralha ATM10</h3>
-              <p class="muted">IP: <b>mc.zaralha.gg</b> · Modpack: ATM 10</p>
-              <ul class="features">
-                <li>👥 Players online: <b>—</b></li>
-                <li>🧩 Mods: listagem automática</li>
-                <li>🔗 <a href="#downloads">Modpack/Launcher</a></li>
-              </ul>
-              <a class="btn btn-primary" href="#discord">Entrar</a>
-            </article>
-            <article class="card">
-              <h3>Minecraft — Regras</h3>
-              <p class="muted">Sem x-ray, sem dupes, respeite claims e spawn.</p>
-              <ul class="features">
-                <li>🧱 Proteção de terrenos</li>
-                <li>💼 Loja opcional</li>
-                <li>🗺 Mapas dinâmicos</li>
-              </ul>
-            </article>
-            <article class="card">
-              <h3>Minecraft — Status</h3>
-              <p class="muted">Ping, TPS e versão mostrados em tempo real.</p>
-              <ul class="features">
-                <li>⏱ TPS: <b>—</b></li>
-                <li>📡 Latência: <b>— ms</b></li>
-                <li>🧭 Versão: <b>—</b></li>
-              </ul>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="glow"></div>
-
-    <!-- SOBRE -->
-    <section id="sobre">
-      <div class="container">
-        <h2 class="section-title">Tecnologia + Estética</h2>
-        <p class="muted">Construído com semântica HTML5, responsivo e leve. Componentes reutilizáveis (cards, badges, botões) com efeitos neon e contraste perfeito para telas modernas.</p>
-        <div class="grid grid-3" style="margin-top:18px;">
-          <article class="card">
-            <div class="icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L15 8L22 9L17 14L18 21L12 18L6 21L7 14L2 9L9 8L12 2Z" stroke="currentColor" stroke-width="1.5"/></svg>
+          
+          <!-- Server Stats -->
+          <div class="server-stats">
+            <div class="stat-item">
+              <div class="stat-icon">🎮</div>
+              <div class="stat-value" data-target="3">0</div>
+              <div class="stat-label">Servidores</div>
             </div>
-            <h3>Estilo Neon</h3>
-            <p class="muted">Gradientes vibrantes e brilhos suaves que não cansam a vista.</p>
-          </article>
-          <article class="card">
-            <div class="icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 7H20M4 12H14M4 17H11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <div class="stat-icon">⏱</div>
+              <div class="stat-value">24/7</div>
+              <div class="stat-label">Online</div>
             </div>
-            <h3>Glassmorphism</h3>
-            <p class="muted">Cards translúcidos com bordas sutis e sombras internas.</p>
-          </article>
-          <article class="card">
-            <div class="icon" aria-hidden="true">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 12C3 7.03 7.03 3 12 3C16.97 3 21 7.03 21 12C21 16.97 16.97 21 12 21C7.03 21 3 16.97 3 12Z" stroke="currentColor" stroke-width="1.5"/><path d="M12 7V12L15 15" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+              <div class="stat-icon">👥</div>
+              <div class="stat-value" data-target="1000">0</div>
+              <div class="stat-label">Jogadores</div>
             </div>
-            <h3>Performance</h3>
-            <p class="muted">Sem dependências pesadas. Animações suaves e acessíveis.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <!-- SHOWCASE -->
-    <section id="showcase" class="showcase">
-      <div class="container">
-        <h2 class="section-title">Exemplos de uso</h2>
-        <div class="grid grid-3">
-          <article class="card">
-            <span class="tag">🎮 Comunidade de Jogos</span>
-            <h3>Portal Gamer</h3>
-            <p class="muted">Crie páginas para Rust, Ark e Minecraft com painéis e integração Discord/RCON.</p>
-            <a class="btn btn-ghost" href="#">Ver demo</a>
-          </article>
-          <article class="card">
-            <span class="tag">⚡ Startup</span>
-            <h3>Produto SaaS</h3>
-            <p class="muted">Landing para conversão com hero forte, prova social e CTA de assinatura.</p>
-            <a class="btn btn-ghost" href="#">Ver demo</a>
-          </article>
-          <article class="card">
-            <span class="tag">🧪 Portfólio</span>
-            <h3>Dev/Designer</h3>
-            <p class="muted">Mostre projetos com cards responsivos e transições elegantes.</p>
-            <a class="btn btn-ghost" href="#">Ver demo</a>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <div class="glow"></div>
-
-    <!-- SERVIÇOS / PLANOS -->
-    <section id="regras">
-      <div class="container">
-        <h2 class="section-title">Regras</h2>
-        <div class="grid grid-3">
-          <article class="card"><h3>Comportamento</h3><p class="muted">Sem toxicidade, racismo, assédio ou spam. Respeite staff e jogadores.</p></article>
-          <article class="card"><h3>Gameplay</h3><p class="muted">Proibido uso de cheats, exploits ou bugs. Reporte falhas no Discord.</p></article>
-          <article class="card"><h3>Economia/VIPs</h3><p class="muted">Vantagens equilibradas, sem pay‑to‑win. Regras de comércio claras.</p></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="downloads">
-      <div class="container">
-        <h2 class="section-title">Downloads</h2>
-        <div class="grid grid-3">
-          <article class="card"><h3>Rust</h3><p class="muted">Config do servidor, lista de plugins e ligação ao Rust+. (ZIP)</p><button class="btn btn-ghost">Baixar</button></article>
-          <article class="card"><h3>Ark</h3><p class="muted">Coleção Steam Workshop e ini recomendado. (Links)</p><button class="btn btn-ghost">Abrir</button></article>
-          <article class="card"><h3>Minecraft</h3><p class="muted">Launcher + modpack ATM10 preparado. (ZIP)</p><button class="btn btn-ghost">Baixar</button></article>
-        </div>
-      </div>
-    </section>
-
-    <section id="servicos">
-      <div class="container">
-        <h2 class="section-title">Serviços</h2>
-        <div class="grid grid-3">
-          <article class="card">
-            <h3>Design Futurista</h3>
-            <p class="muted">Identidade visual neon, logotipos e banners em alta qualidade.</p>
-          </article>
-          <article class="card">
-            <h3>Integrações</h3>
-            <p class="muted">Bots Discord, painéis para servidores e automações com APIs.</p>
-          </article>
-          <article class="card">
-            <h3>Sites e Lojas</h3>
-            <p class="muted">Landing pages, vitrines e checkouts otimizados para mobile.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="planos">
-      <div class="container">
-        <h2 class="section-title">Planos</h2>
-        <div class="grid grid-3">
-          <article class="card">
-            <h3>Starter</h3>
-            <div class="price">€0</div>
-            <ul class="features">
-              <li>✔ 1 página</li>
-              <li>✔ Tema Futurista</li>
-              <li>— Sem integrações</li>
-            </ul>
-            <button class="btn btn-ghost">Experimentar</button>
-          </article>
-          <article class="card" style="border-color:rgba(124,58,237,.45)">
-            <h3>Pro</h3>
-            <div class="price">€49</div>
-            <ul class="features">
-              <li>✔ Até 5 páginas</li>
-              <li>✔ Formulário e e‑mail</li>
-              <li>✔ Pequenas integrações</li>
-            </ul>
-            <button class="btn btn-primary">Assinar</button>
-          </article>
-          <article class="card">
-            <h3>Elite</h3>
-            <div class="price">€129</div>
-            <ul class="features">
-              <li>✔ Páginas ilimitadas</li>
-              <li>✔ Integrações avançadas</li>
-              <li>✔ Suporte prioritário</li>
-            </ul>
-            <button class="btn btn-ghost">Falar com vendas</button>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="container cta">
-        <div style="display:flex; flex-wrap:wrap; gap:16px; align-items:center; justify-content:space-between;">
-          <div>
-            <h3 style="margin:0 0 6px; font-family:Orbitron, sans-serif; letter-spacing:.06em;">Pronto para o salto?</h3>
-            <p class="muted" style="margin:0">Publique hoje mesmo um visual que parece do amanhã.</p>
           </div>
-          <a class="btn btn-primary" href="#contato">Solicitar orçamento</a>
         </div>
       </div>
     </section>
 
-    <!-- FAQ -->
-    <section id="faq">
+    <!-- Shop Section -->
+    <section id="shop" class="shop-section">
       <div class="container">
-        <h2 class="section-title">Perguntas frequentes</h2>
-        <details>
-          <summary>Posso adaptar para minha marca?</summary>
-          <div class="muted">Sim — altere cores em <code>:root</code>, fontes e textos. Tudo em um único arquivo.</div>
-        </details>
-        <details>
-          <summary>Funciona em mobile?</summary>
-          <div class="muted">Totalmente responsivo, com menu colapsável e tipografia fluida.</div>
-        </details>
-        <details>
-          <summary>Posso integrar Discord/RCON?</summary>
-          <div class="muted">Sim — este template é base. Integrações podem ser adicionadas com JS ou backend.</div>
-        </details>
+        <div class="section-header">
+          <div class="section-badge">LOJA</div>
+          <h2 class="section-title">
+            <span class="title-accent">Marketplace</span> Digital
+          </h2>
+          <p class="section-subtitle">Adquira itens exclusivos e kits premium para seus jogos favoritos</p>
+        </div>
+        
+        <!-- Shop Tabs -->
+        <div class="shop-tabs">
+          <button class="shop-tab active" data-game="rust" onclick="switchShopTab('rust', event)">
+            <div class="tab-glow"></div>
+            <span class="tab-icon">🎮</span>
+            <span class="tab-text">Rust</span>
+          </button>
+          <button class="shop-tab" data-game="minecraft" onclick="switchShopTab('minecraft', event)">
+            <div class="tab-glow"></div>
+            <span class="tab-icon">⛏️</span>
+            <span class="tab-text">Minecraft</span>
+          </button>
+          <button class="shop-tab" data-game="dayz" onclick="switchShopTab('dayz', event)">
+            <div class="tab-glow"></div>
+            <span class="tab-icon">🧟</span>
+            <span class="tab-text">DayZ</span>
+          </button>
+        </div>
+        
+        <!-- Shop Content -->
+        <div id="shopTabContent">
+          <div class="shop-tab-panel active" id="shop-rust">
+            <div id="productsContainer-rust" class="products-grid">
+              <!-- Produtos Rust serão carregados aqui -->
+            </div>
+          </div>
+          <div class="shop-tab-panel" id="shop-minecraft">
+            <div id="productsContainer-minecraft" class="products-grid">
+              <!-- Produtos Minecraft serão carregados aqui -->
+            </div>
+          </div>
+          <div class="shop-tab-panel" id="shop-dayz">
+            <div id="productsContainer-dayz" class="products-grid">
+              <!-- Produtos DayZ serão carregados aqui -->
+            </div>
+          </div>
+        </div>
+        
+        <!-- Cart -->
+        <div class="cart-section">
+          <div class="cart-header">
+            <h3>
+              <span class="cart-icon">🛒</span>
+              Carrinho
+            </h3>
+            <span class="cart-count" id="cartCountBadge">0 itens</span>
+          </div>
+          <div id="cartItems" class="cart-items"></div>
+          <div class="cart-footer">
+            <div class="cart-total">
+              <span>Total:</span>
+              <span class="total-price" id="cartTotal">R$ 0,00</span>
+            </div>
+            <button class="btn-checkout" onclick="checkout()">
+              <span>Finalizar Compra</span>
+              <div class="btn-shine"></div>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- CONTATO -->
-    <section id="contato">
-      <span id="discord"></span>
+    <!-- Downloads Section -->
+    <section id="downloads" class="downloads-section">
       <div class="container">
-        <h2 class="section-title">Contato</h2>
-        <div class="grid grid-2">
-          <form class="card" onsubmit="event.preventDefault(); alert('Obrigado! Entraremos em contato.');">
-            <label>Nome<br><input required placeholder="Seu nome" style="width:100%; margin-top:6px; padding:12px 14px; border-radius:12px; border:1px solid var(--border); background:rgba(0,0,0,.2); color:var(--text)"></label>
-            <div style="height:10px"></div>
-            <label>Email<br><input type="email" required placeholder="voce@exemplo.com" style="width:100%; margin-top:6px; padding:12px 14px; border-radius:12px; border:1px solid var(--border); background:rgba(0,0,0,.2); color:var(--text)"></label>
-            <div style="height:10px"></div>
-            <label>Mensagem<br><textarea rows="5" placeholder="Como posso ajudar?" style="width:100%; margin-top:6px; padding:12px 14px; border-radius:12px; border:1px solid var(--border); background:rgba(0,0,0,.2); color:var(--text)"></textarea></label>
-            <div style="height:14px"></div>
-            <button class="btn btn-primary" type="submit">Enviar</button>
-          </form>
-          <div class="card">
-            <h3>Fale direto</h3>
-            <p class="muted">Preferir conversar? Estamos online para tirar dúvidas e montar seu pacote ideal.</p>
-            <ul class="features">
-              <li>💬 Discord &middot; comunidade</li>
-              <li>📧 E‑mail &middot; suporte</li>
-              <li>⚙️ Integrações sob medida</li>
-            </ul>
+        <div class="section-header">
+          <div class="section-badge">DOWNLOADS</div>
+          <h2 class="section-title">
+            Recursos <span class="title-accent">Disponíveis</span>
+          </h2>
+          <p class="section-subtitle">Baixe os arquivos necessários para uma experiência completa</p>
+        </div>
+        <div class="downloads-grid">
+          <div class="download-card">
+            <div class="card-glow"></div>
+            <div class="download-icon">🎮</div>
+            <h3>Rust</h3>
+            <p>Configurações avançadas e mods exclusivos do servidor</p>
+            <button class="btn-download" onclick="downloadFile('rust')">
+              <span>Baixar</span>
+              <div class="btn-shine"></div>
+            </button>
+          </div>
+          <div class="download-card">
+            <div class="card-glow"></div>
+            <div class="download-icon">⛏️</div>
+            <h3>Minecraft</h3>
+            <p>Modpack completo e configurações otimizadas</p>
+            <button class="btn-download" onclick="downloadFile('minecraft')">
+              <span>Baixar</span>
+              <div class="btn-shine"></div>
+            </button>
+          </div>
+          <div class="download-card">
+            <div class="card-glow"></div>
+            <div class="download-icon">🧟</div>
+            <h3>DayZ</h3>
+            <p>Mods e configurações do servidor premium</p>
+            <button class="btn-download" onclick="downloadFile('dayz')">
+              <span>Baixar</span>
+              <div class="btn-shine"></div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-badge">SOBRE</div>
+          <h2 class="section-title">
+            Tecnologia <span class="title-accent">Avançada</span>
+          </h2>
+          <p class="section-subtitle">Recursos de ponta que definem o futuro dos servidores de jogos</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-glow"></div>
+            <div class="feature-icon">⚡</div>
+            <h3>Performance Máxima</h3>
+            <p>Hardware de última geração com zero lag e latência mínima</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-glow"></div>
+            <div class="feature-icon">🛡️</div>
+            <h3>Anti-Cheat Avançado</h3>
+            <p>Sistema de proteção multicamadas contra trapaças e exploits</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-glow"></div>
+            <div class="feature-icon">🎯</div>
+            <h3>Plugins Exclusivos</h3>
+            <p>Desenvolvimento próprio de plugins únicos e inovadores</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-glow"></div>
+            <div class="feature-icon">👥</div>
+            <h3>Comunidade Global</h3>
+            <p>Milhares de jogadores conectados em uma comunidade ativa</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-glow"></div>
+            <div class="feature-icon">🔄</div>
+            <h3>Atualizações Constantes</h3>
+            <p>Servidores sempre atualizados com as últimas tecnologias</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-glow"></div>
+            <div class="feature-icon">💬</div>
+            <h3>Suporte 24/7</h3>
+            <p>Equipe especializada disponível a qualquer momento</p>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-      <span>&copy; <span id="year"></span> Zaralha Servers. Todos os direitos reservados.</span>
-      <div style="display:flex; gap:10px; align-items:center;">
-        <a href="#" aria-label="Twitter" class="tag">X</a>
-        <a href="#" aria-label="Discord" class="tag">Discord</a>
-        <a href="#top" class="tag">Topo ↑</a>
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="logo-section">
+            <div class="logo-icon">
+              <div class="logo-glow"></div>
+              <span>Z</span>
+            </div>
+            <div class="logo-text">
+              <span class="logo-name">ZARALHA</span>
+              <span class="logo-subtitle">SERVERS</span>
+            </div>
+          </div>
+          <p class="footer-description">Servidores premium com tecnologia de ponta para Rust, Minecraft e DayZ</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Servidores</h4>
+            <a href="#shop">Loja</a>
+            <a href="#downloads">Downloads</a>
+            <a href="#about">Sobre</a>
+          </div>
+          <div class="footer-column">
+            <h4>Suporte</h4>
+            <a href="#">Discord</a>
+            <a href="#">FAQ</a>
+            <a href="#">Contato</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> ZARALHA SERVERS. Todos os direitos reservados.</p>
       </div>
     </div>
   </footer>
 
-  <script>
-    // Ano dinâmico
-    document.getElementById('year').textContent = new Date().getFullYear();
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal" style="display:none;">
+    <div class="modal-backdrop" onclick="closeLoginModal()"></div>
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeLoginModal()">&times;</span>
+      <h2 class="modal-title">Acesso ao Sistema</h2>
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="showEmailLogin()">Email</button>
+        <button class="auth-tab" onclick="loginWithSteam()">Steam</button>
+      </div>
+      <div id="emailLoginForm" class="auth-form">
+        <input type="email" id="loginEmail" placeholder="Email" class="form-input">
+        <input type="password" id="loginPassword" placeholder="Senha" class="form-input">
+        <button class="btn-primary" onclick="handleEmailLogin()" style="width:100%;">
+          <span>Entrar</span>
+          <div class="btn-shine"></div>
+        </button>
+        <p class="auth-link">
+          <a href="#" onclick="showRegisterForm()">Não tem conta? Registrar</a>
+        </p>
+      </div>
+      <div id="registerForm" class="auth-form" style="display:none;">
+        <input type="text" id="registerUsername" placeholder="Nome de usuário" class="form-input">
+        <input type="email" id="registerEmail" placeholder="Email" class="form-input">
+        <input type="password" id="registerPassword" placeholder="Senha" class="form-input">
+        <input type="text" id="registerSteamId" placeholder="Steam ID (opcional)" class="form-input">
+        <button class="btn-primary" onclick="handleRegister()" style="width:100%;">
+          <span>Registrar</span>
+          <div class="btn-shine"></div>
+        </button>
+        <p class="auth-link">
+          <a href="#" onclick="showEmailLogin()">Já tem conta? Entrar</a>
+        </p>
+      </div>
+    </div>
+  </div>
 
-    // Menu mobile
-    const hamb = document.getElementById('hamb');
-    hamb?.addEventListener('click', ()=>{
-      const nav = document.querySelector('nav.menu');
-      if(!nav) return;
-      if(getComputedStyle(nav).display === 'none'){
-        nav.style.display = 'flex';
-        nav.style.flexDirection = 'column';
-        nav.style.position = 'absolute';
-        nav.style.top = '64px';
-        nav.style.right = '4vw';
-        nav.style.background = 'linear-gradient(180deg, rgba(255,255,255,.1), rgba(255,255,255,.04))';
-        nav.style.padding = '14px';
-        nav.style.border = '1px solid var(--border)';
-        nav.style.borderRadius = '14px';
-        nav.style.backdropFilter = 'blur(8px)';
-        nav.style.zIndex = '50';
-      }else{
-        nav.removeAttribute('style');
-      }
-    });
-
-    // Scroll suave
-    document.querySelectorAll('a[href^="#"]').forEach(a=>{
-      a.addEventListener('click', e=>{
-        const id = a.getAttribute('href');
-        if(id && id.length>1){ e.preventDefault(); document.querySelector(id)?.scrollIntoView({behavior:'smooth', block:'start'}); }
-      });
-    });
-      
-    // Tabs Servidores (inserido)
-    document.querySelectorAll('.tab-btn').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-        document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
-        btn.classList.add('active');
-        const sel = btn.getAttribute('data-target');
-        document.querySelector(sel)?.classList.add('active');
-      });
-    });
-  </script>
+  <script src="js/i18n.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/shop.js"></script>
+  <script src="js/main.js"></script>
 </body>
 </html>

@@ -1,0 +1,8 @@
+{
+  "ApiUrl": "http://localhost:5000/api",
+  "ApiKey": "RUST_PLUGIN_KEY",
+  "CheckInterval": 30.0,
+  "DebugMode": false,
+  "NotifyOnDelivery": true,
+  "DropIfInventoryFull": true
+}
