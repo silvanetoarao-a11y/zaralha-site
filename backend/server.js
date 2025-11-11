@@ -56,6 +56,28 @@ db.serialize(() => {
     FOREIGN KEY(userId) REFERENCES users(id)
   )`);
   
+  db.run(`CREATE TABLE IF NOT EXISTS admins (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    userId INTEGER UNIQUE,
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY(userId) REFERENCES users(id)
+  )`);
+  
+  // Criar admin padrão (email: admin@admin.com, senha: admin123)
+  db.get('SELECT id FROM users WHERE email = ?', ['admin@admin.com'], (err, user) => {
+    if (!user) {
+      bcrypt.hash('admin123', 10).then(hashedPassword => {
+        db.run('INSERT INTO users (email, username, password) VALUES (?, ?, ?)', 
+          ['admin@admin.com', 'Admin', hashedPassword], function(err) {
+            if (!err) {
+              db.run('INSERT INTO admins (userId) VALUES (?)', [this.lastID]);
+              console.log('Admin padrão criado: admin@admin.com / admin123');
+            }
+          });
+      });
+    }
+  });
+  
   // Produtos de exemplo
   db.run(`INSERT OR IGNORE INTO products (id, name, description, price, game, category, itemId, quantity) VALUES
     ('rust_ak47', 'AK-47', 'Rifle AK-47', 50.00, 'rust', 'weapons', 'rifle.ak', 1),
@@ -299,11 +321,23 @@ app.get('/api/rust/pending-deliveries', (req, res) => {
   );
 });
 
+// Rota de status para o plugin Rust
+app.get('/api/rust/status', (req, res) => {
+  const apiKey = req.headers['x-api-key'];
+  const expectedKey = process.env.RUST_API_KEY || 'RUST_PLUGIN_KEY';
+  
+  if (!apiKey || apiKey !== expectedKey) {
+    return res.status(401).json({ message: 'API Key inválida' });
+  }
+  
+  res.json({ status: 'online', timestamp: new Date().toISOString() });
+});
+
 // Marcar entrega como concluída
 app.post('/api/rust/mark-delivered', (req, res) => {
   const apiKey = req.headers['x-api-key'];
   const expectedKey = process.env.RUST_API_KEY || 'RUST_PLUGIN_KEY';
-  const { purchaseId } = req.body;
+  const { purchaseId, error } = req.body;
   
   if (!apiKey || apiKey !== expectedKey) {
     return res.status(401).json({ message: 'API Key inválida' });
@@ -326,6 +360,137 @@ app.post('/api/rust/mark-delivered', (req, res) => {
   );
 });
 
+// Middleware para verificar se é admin
+function isAdmin(req, res, next) {
+  if (!req.user) {
+    return res.status(401).json({ message: 'Não autenticado' });
+  }
+  
+  db.get('SELECT * FROM admins WHERE userId = ?', [req.user.id], (err, admin) => {
+    if (err || !admin) {
+      return res.status(403).json({ message: 'Acesso negado. Apenas administradores.' });
+    }
+    next();
+  });
+}
+
+// Rotas Admin - Produtos
+app.get('/api/admin/products', authenticateToken, isAdmin, (req, res) => {
+  const game = req.query.game;
+  
+  let query = 'SELECT * FROM products';
+  const params = [];
+  
+  if (game) {
+    query += ' WHERE game = ?';
+    params.push(game);
+  }
+  
+  query += ' ORDER BY game, name';
+  
+  db.all(query, params, (err, products) => {
+    if (err) {
+      return res.status(500).json({ message: 'Erro ao buscar produtos' });
+    }
+    res.json(products);
+  });
+});
+
+app.post('/api/admin/products', authenticateToken, isAdmin, (req, res) => {
+  const { id, name, description, price, game, category, itemId, quantity } = req.body;
+  
+  if (!id || !name || !price || !game || !itemId) {
+    return res.status(400).json({ message: 'Campos obrigatórios faltando' });
+  }
+  
+  db.run(
+    'INSERT INTO products (id, name, description, price, game, category, itemId, quantity) VALUES (?, ?, ?, ?, ?, ?, ?, ?)',
+    [id, name, description || '', price, game, category || 'items', itemId, quantity || 1],
+    function(err) {
+      if (err) {
+        if (err.message.includes('UNIQUE')) {
+          return res.status(400).json({ message: 'ID do produto já existe' });
+        }
+        return res.status(500).json({ message: 'Erro ao criar produto' });
+      }
+      res.json({ message: 'Produto criado com sucesso', id });
+    }
+  );
+});
+
+app.put('/api/admin/products/:id', authenticateToken, isAdmin, (req, res) => {
+  const { id } = req.params;
+  const { name, description, price, game, category, itemId, quantity } = req.body;
+  
+  db.run(
+    'UPDATE products SET name = ?, description = ?, price = ?, game = ?, category = ?, itemId = ?, quantity = ? WHERE id = ?',
+    [name, description, price, game, category, itemId, quantity, id],
+    function(err) {
+      if (err) {
+        return res.status(500).json({ message: 'Erro ao atualizar produto' });
+      }
+      if (this.changes === 0) {
+        return res.status(404).json({ message: 'Produto não encontrado' });
+      }
+      res.json({ message: 'Produto atualizado com sucesso' });
+    }
+  );
+});
+
+app.delete('/api/admin/products/:id', authenticateToken, isAdmin, (req, res) => {
+  const { id } = req.params;
+  
+  db.run('DELETE FROM products WHERE id = ?', [id], function(err) {
+    if (err) {
+      return res.status(500).json({ message: 'Erro ao deletar produto' });
+    }
+    if (this.changes === 0) {
+      return res.status(404).json({ message: 'Produto não encontrado' });
+    }
+    res.json({ message: 'Produto deletado com sucesso' });
+  });
+});
+
+// Rotas Admin - Compras
+app.get('/api/admin/purchases', authenticateToken, isAdmin, (req, res) => {
+  const limit = parseInt(req.query.limit) || 50;
+  const offset = parseInt(req.query.offset) || 0;
+  
+  db.all(
+    `SELECT p.*, u.username, u.email, pr.name as productName 
+     FROM purchases p 
+     LEFT JOIN users u ON p.userId = u.id 
+     LEFT JOIN products pr ON p.productId = pr.id 
+     ORDER BY p.createdAt DESC 
+     LIMIT ? OFFSET ?`,
+    [limit, offset],
+    (err, purchases) => {
+      if (err) {
+        return res.status(500).json({ message: 'Erro ao buscar compras' });
+      }
+      res.json(purchases);
+    }
+  );
+});
+
+// Rotas Admin - Estatísticas
+app.get('/api/admin/stats', authenticateToken, isAdmin, (req, res) => {
+  db.all(`
+    SELECT 
+      (SELECT COUNT(*) FROM products) as totalProducts,
+      (SELECT COUNT(*) FROM purchases) as totalPurchases,
+      (SELECT COUNT(*) FROM purchases WHERE status = 'confirmed') as confirmedPurchases,
+      (SELECT COUNT(*) FROM purchases WHERE deliveredAt IS NOT NULL) as deliveredPurchases,
+      (SELECT SUM(price) FROM purchases WHERE status = 'confirmed') as totalRevenue
+  `, [], (err, rows) => {
+    if (err) {
+      return res.status(500).json({ message: 'Erro ao buscar estatísticas' });
+    }
+    res.json(rows[0] || {});
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`API rodando na porta ${PORT}`);
+  console.log(`Admin padrão: admin@admin.com / admin123`);
 });

@@ -1,7 +1,8 @@
-# Configuração do plugin ShopIntegration
 {
-  "API_URL": "http://localhost:3000/api",
-  "API_KEY": "RUST_PLUGIN_KEY",
-  "CheckInterval": 30,
-  "Debug": false
+  "ApiUrl": "http://localhost:3000/api",
+  "ApiKey": "RUST_PLUGIN_KEY",
+  "CheckInterval": 30.0,
+  "DebugMode": false,
+  "NotifyOnDelivery": true,
+  "DropIfInventoryFull": true
 }

@@ -89,11 +89,27 @@ function logout() {
   window.location.href = '/';
 }
 
+// Verificar se é admin
+async function checkAdmin() {
+  const token = localStorage.getItem('authToken');
+  if (!token) return false;
+  
+  try {
+    const response = await fetch(`${API_URL}/admin/stats`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    return response.ok;
+  } catch (error) {
+    return false;
+  }
+}
+
 // Atualizar UI de autenticação
-function updateAuthUI() {
+async function updateAuthUI() {
   const loginBtn = document.getElementById('loginBtn');
   const logoutBtn = document.getElementById('logoutBtn');
   const profileBtn = document.getElementById('profileBtn');
+  const adminBtn = document.getElementById('adminBtn');
   const userInfo = document.getElementById('userInfo');
   
   if (currentUser) {
@@ -104,10 +120,17 @@ function updateAuthUI() {
       userInfo.textContent = currentUser.username || currentUser.email;
       userInfo.style.display = 'inline-block';
     }
+    
+    // Verificar se é admin
+    const isAdmin = await checkAdmin();
+    if (adminBtn) {
+      adminBtn.style.display = isAdmin ? 'inline-block' : 'none';
+    }
   } else {
     if (loginBtn) loginBtn.style.display = 'inline-block';
     if (logoutBtn) logoutBtn.style.display = 'none';
     if (profileBtn) profileBtn.style.display = 'none';
+    if (adminBtn) adminBtn.style.display = 'none';
     if (userInfo) userInfo.style.display = 'none';
   }
 }
