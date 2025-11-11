@@ -4,26 +4,34 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ZARALHA SERVERS - Rust, Minecraft, DayZ</title>
-  <meta name="description" content="ZARALHA SERVERS - Servidores premium de Rust, Minecraft e DayZ com loja integrada" />
+  <meta name="description" content="ZARALHA SERVERS - Servidores premium de Rust, Minecraft e DayZ com tecnologia de ponta" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <script>
     window.API_URL = 'http://localhost:5000/api';
   </script>
 </head>
 <body>
-  <!-- Background Effects -->
-  <div class="bg-pattern"></div>
-  <div class="bg-gradient"></div>
+  <!-- Animated Background -->
+  <div class="bg-animated">
+    <div class="grid-pattern"></div>
+    <div class="particles"></div>
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+  </div>
   
   <!-- Header -->
   <header class="main-header">
     <div class="container">
       <div class="header-content">
         <div class="logo-section">
-          <div class="logo-icon">Z</div>
+          <div class="logo-icon">
+            <div class="logo-glow"></div>
+            <span>Z</span>
+          </div>
           <div class="logo-text">
             <span class="logo-name">ZARALHA</span>
             <span class="logo-subtitle">SERVERS</span>
@@ -31,12 +39,30 @@
         </div>
         
         <nav class="main-nav">
-          <a href="#home" class="nav-link active">Início</a>
-          <a href="#shop" class="nav-link">Loja</a>
-          <a href="#downloads" class="nav-link">Downloads</a>
-          <a href="#about" class="nav-link">Sobre</a>
-          <a href="#profile" id="profileBtn" class="nav-link" style="display:none;">Perfil</a>
-          <a href="admin/" id="adminBtn" class="nav-link admin-link" style="display:none;">Admin</a>
+          <a href="#home" class="nav-link active">
+            <span class="nav-icon">⌂</span>
+            <span>Início</span>
+          </a>
+          <a href="#shop" class="nav-link">
+            <span class="nav-icon">⚡</span>
+            <span>Loja</span>
+          </a>
+          <a href="#downloads" class="nav-link">
+            <span class="nav-icon">⬇</span>
+            <span>Downloads</span>
+          </a>
+          <a href="#about" class="nav-link">
+            <span class="nav-icon">ℹ</span>
+            <span>Sobre</span>
+          </a>
+          <a href="#profile" id="profileBtn" class="nav-link" style="display:none;">
+            <span class="nav-icon">👤</span>
+            <span>Perfil</span>
+          </a>
+          <a href="admin/" id="adminBtn" class="nav-link admin-link" style="display:none;">
+            <span class="nav-icon">⚙</span>
+            <span>Admin</span>
+          </a>
         </nav>
         
         <div class="header-actions">
@@ -46,9 +72,15 @@
             <option value="es">ES</option>
             <option value="ru">RU</option>
           </select>
-          <span id="cartCount" class="cart-badge" style="display:none;">0</span>
-          <button class="btn-login" id="loginBtn" onclick="showLoginModal()">Entrar</button>
-          <button class="btn-logout" id="logoutBtn" onclick="logout()" style="display:none;">Sair</button>
+          <div class="cart-indicator">
+            <span id="cartCount" class="cart-badge" style="display:none;">0</span>
+          </div>
+          <button class="btn-login" id="loginBtn" onclick="showLoginModal()">
+            <span>Entrar</span>
+          </button>
+          <button class="btn-logout" id="logoutBtn" onclick="logout()" style="display:none;">
+            <span>Sair</span>
+          </button>
           <span id="userInfo" class="user-info" style="display:none;"></span>
         </div>
         
@@ -67,33 +99,47 @@
       <div class="container">
         <div class="hero-content">
           <div class="hero-badge">
-            <span class="badge-icon">🎮</span>
+            <div class="badge-pulse"></div>
+            <span class="badge-icon">⚡</span>
             <span>Rust • Minecraft • DayZ</span>
           </div>
           <h1 class="hero-title">
-            <span class="title-highlight">ZARALHA</span> SERVERS
+            <span class="title-line">
+              <span class="title-highlight">ZARALHA</span>
+            </span>
+            <span class="title-line">SERVERS</span>
           </h1>
           <p class="hero-description">
-            Servidores premium com performance máxima, plugins customizados e comunidade ativa. 
-            Junte-se à melhor experiência de jogo.
+            Tecnologia de ponta, performance máxima e experiência premium. 
+            <br>O futuro dos servidores de jogos está aqui.
           </p>
           <div class="hero-actions">
-            <a href="#shop" class="btn-primary">Ver Loja</a>
-            <a href="#downloads" class="btn-secondary">Downloads</a>
+            <a href="#shop" class="btn-primary">
+              <span>Explorar Loja</span>
+              <div class="btn-shine"></div>
+            </a>
+            <a href="#downloads" class="btn-secondary">
+              <span>Downloads</span>
+            </a>
           </div>
           
           <!-- Server Stats -->
           <div class="server-stats">
             <div class="stat-item">
-              <div class="stat-value">3</div>
+              <div class="stat-icon">🎮</div>
+              <div class="stat-value" data-target="3">0</div>
               <div class="stat-label">Servidores</div>
             </div>
+            <div class="stat-divider"></div>
             <div class="stat-item">
+              <div class="stat-icon">⏱</div>
               <div class="stat-value">24/7</div>
               <div class="stat-label">Online</div>
             </div>
+            <div class="stat-divider"></div>
             <div class="stat-item">
-              <div class="stat-value">1000+</div>
+              <div class="stat-icon">👥</div>
+              <div class="stat-value" data-target="1000">0</div>
               <div class="stat-label">Jogadores</div>
             </div>
           </div>
@@ -105,21 +151,27 @@
     <section id="shop" class="shop-section">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">Loja</h2>
-          <p class="section-subtitle">Compre itens e kits para seus jogos favoritos</p>
+          <div class="section-badge">LOJA</div>
+          <h2 class="section-title">
+            <span class="title-accent">Marketplace</span> Digital
+          </h2>
+          <p class="section-subtitle">Adquira itens exclusivos e kits premium para seus jogos favoritos</p>
         </div>
         
         <!-- Shop Tabs -->
         <div class="shop-tabs">
           <button class="shop-tab active" data-game="rust" onclick="switchShopTab('rust', event)">
+            <div class="tab-glow"></div>
             <span class="tab-icon">🎮</span>
             <span class="tab-text">Rust</span>
           </button>
           <button class="shop-tab" data-game="minecraft" onclick="switchShopTab('minecraft', event)">
+            <div class="tab-glow"></div>
             <span class="tab-icon">⛏️</span>
             <span class="tab-text">Minecraft</span>
           </button>
           <button class="shop-tab" data-game="dayz" onclick="switchShopTab('dayz', event)">
+            <div class="tab-glow"></div>
             <span class="tab-icon">🧟</span>
             <span class="tab-text">DayZ</span>
           </button>
@@ -147,7 +199,10 @@
         <!-- Cart -->
         <div class="cart-section">
           <div class="cart-header">
-            <h3>Carrinho</h3>
+            <h3>
+              <span class="cart-icon">🛒</span>
+              Carrinho
+            </h3>
             <span class="cart-count" id="cartCountBadge">0 itens</span>
           </div>
           <div id="cartItems" class="cart-items"></div>
@@ -156,7 +211,10 @@
               <span>Total:</span>
               <span class="total-price" id="cartTotal">R$ 0,00</span>
             </div>
-            <button class="btn-checkout" onclick="checkout()">Finalizar Compra</button>
+            <button class="btn-checkout" onclick="checkout()">
+              <span>Finalizar Compra</span>
+              <div class="btn-shine"></div>
+            </button>
           </div>
         </div>
       </div>
@@ -166,27 +224,42 @@
     <section id="downloads" class="downloads-section">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">Downloads</h2>
-          <p class="section-subtitle">Baixe os arquivos necessários para jogar</p>
+          <div class="section-badge">DOWNLOADS</div>
+          <h2 class="section-title">
+            Recursos <span class="title-accent">Disponíveis</span>
+          </h2>
+          <p class="section-subtitle">Baixe os arquivos necessários para uma experiência completa</p>
         </div>
         <div class="downloads-grid">
           <div class="download-card">
+            <div class="card-glow"></div>
             <div class="download-icon">🎮</div>
             <h3>Rust</h3>
-            <p>Configurações e mods do servidor</p>
-            <button class="btn-download" onclick="downloadFile('rust')">Baixar</button>
+            <p>Configurações avançadas e mods exclusivos do servidor</p>
+            <button class="btn-download" onclick="downloadFile('rust')">
+              <span>Baixar</span>
+              <div class="btn-shine"></div>
+            </button>
           </div>
           <div class="download-card">
+            <div class="card-glow"></div>
             <div class="download-icon">⛏️</div>
             <h3>Minecraft</h3>
-            <p>Modpack e configurações</p>
-            <button class="btn-download" onclick="downloadFile('minecraft')">Baixar</button>
+            <p>Modpack completo e configurações otimizadas</p>
+            <button class="btn-download" onclick="downloadFile('minecraft')">
+              <span>Baixar</span>
+              <div class="btn-shine"></div>
+            </button>
           </div>
           <div class="download-card">
+            <div class="card-glow"></div>
             <div class="download-icon">🧟</div>
             <h3>DayZ</h3>
-            <p>Mods e configurações do servidor</p>
-            <button class="btn-download" onclick="downloadFile('dayz')">Baixar</button>
+            <p>Mods e configurações do servidor premium</p>
+            <button class="btn-download" onclick="downloadFile('dayz')">
+              <span>Baixar</span>
+              <div class="btn-shine"></div>
+            </button>
           </div>
         </div>
       </div>
@@ -196,39 +269,48 @@
     <section id="about" class="about-section">
       <div class="container">
         <div class="section-header">
-          <h2 class="section-title">Sobre Nossos Servidores</h2>
-          <p class="section-subtitle">A melhor experiência de jogo que você pode ter</p>
+          <div class="section-badge">SOBRE</div>
+          <h2 class="section-title">
+            Tecnologia <span class="title-accent">Avançada</span>
+          </h2>
+          <p class="section-subtitle">Recursos de ponta que definem o futuro dos servidores de jogos</p>
         </div>
         <div class="features-grid">
           <div class="feature-card">
+            <div class="feature-glow"></div>
             <div class="feature-icon">⚡</div>
             <h3>Performance Máxima</h3>
-            <p>Servidores otimizados com hardware de última geração para garantir zero lag</p>
+            <p>Hardware de última geração com zero lag e latência mínima</p>
           </div>
           <div class="feature-card">
+            <div class="feature-glow"></div>
             <div class="feature-icon">🛡️</div>
-            <h3>Anti-Cheat</h3>
-            <p>Sistema avançado de proteção contra trapaças e exploits</p>
+            <h3>Anti-Cheat Avançado</h3>
+            <p>Sistema de proteção multicamadas contra trapaças e exploits</p>
           </div>
           <div class="feature-card">
+            <div class="feature-glow"></div>
             <div class="feature-icon">🎯</div>
-            <h3>Plugins Customizados</h3>
-            <p>Plugins únicos desenvolvidos especialmente para nossos servidores</p>
+            <h3>Plugins Exclusivos</h3>
+            <p>Desenvolvimento próprio de plugins únicos e inovadores</p>
           </div>
           <div class="feature-card">
+            <div class="feature-glow"></div>
             <div class="feature-icon">👥</div>
-            <h3>Comunidade Ativa</h3>
-            <p>Junte-se a milhares de jogadores em uma comunidade amigável</p>
+            <h3>Comunidade Global</h3>
+            <p>Milhares de jogadores conectados em uma comunidade ativa</p>
           </div>
           <div class="feature-card">
+            <div class="feature-glow"></div>
             <div class="feature-icon">🔄</div>
             <h3>Atualizações Constantes</h3>
-            <p>Servidores sempre atualizados com as últimas versões e correções</p>
+            <p>Servidores sempre atualizados com as últimas tecnologias</p>
           </div>
           <div class="feature-card">
+            <div class="feature-glow"></div>
             <div class="feature-icon">💬</div>
             <h3>Suporte 24/7</h3>
-            <p>Equipe de suporte disponível a qualquer momento para ajudar</p>
+            <p>Equipe especializada disponível a qualquer momento</p>
           </div>
         </div>
       </div>
@@ -241,13 +323,16 @@
       <div class="footer-content">
         <div class="footer-brand">
           <div class="logo-section">
-            <div class="logo-icon">Z</div>
+            <div class="logo-icon">
+              <div class="logo-glow"></div>
+              <span>Z</span>
+            </div>
             <div class="logo-text">
               <span class="logo-name">ZARALHA</span>
               <span class="logo-subtitle">SERVERS</span>
             </div>
           </div>
-          <p class="footer-description">Servidores premium de Rust, Minecraft e DayZ</p>
+          <p class="footer-description">Servidores premium com tecnologia de ponta para Rust, Minecraft e DayZ</p>
         </div>
         <div class="footer-links">
           <div class="footer-column">
@@ -272,9 +357,10 @@
 
   <!-- Login Modal -->
   <div id="loginModal" class="modal" style="display:none;">
+    <div class="modal-backdrop" onclick="closeLoginModal()"></div>
     <div class="modal-content">
       <span class="modal-close" onclick="closeLoginModal()">&times;</span>
-      <h2 class="modal-title">Entrar</h2>
+      <h2 class="modal-title">Acesso ao Sistema</h2>
       <div class="auth-tabs">
         <button class="auth-tab active" onclick="showEmailLogin()">Email</button>
         <button class="auth-tab" onclick="loginWithSteam()">Steam</button>
@@ -282,7 +368,10 @@
       <div id="emailLoginForm" class="auth-form">
         <input type="email" id="loginEmail" placeholder="Email" class="form-input">
         <input type="password" id="loginPassword" placeholder="Senha" class="form-input">
-        <button class="btn-primary" onclick="handleEmailLogin()" style="width:100%;">Entrar</button>
+        <button class="btn-primary" onclick="handleEmailLogin()" style="width:100%;">
+          <span>Entrar</span>
+          <div class="btn-shine"></div>
+        </button>
         <p class="auth-link">
           <a href="#" onclick="showRegisterForm()">Não tem conta? Registrar</a>
         </p>
@@ -292,7 +381,10 @@
         <input type="email" id="registerEmail" placeholder="Email" class="form-input">
         <input type="password" id="registerPassword" placeholder="Senha" class="form-input">
         <input type="text" id="registerSteamId" placeholder="Steam ID (opcional)" class="form-input">
-        <button class="btn-primary" onclick="handleRegister()" style="width:100%;">Registrar</button>
+        <button class="btn-primary" onclick="handleRegister()" style="width:100%;">
+          <span>Registrar</span>
+          <div class="btn-shine"></div>
+        </button>
         <p class="auth-link">
           <a href="#" onclick="showEmailLogin()">Já tem conta? Entrar</a>
         </p>

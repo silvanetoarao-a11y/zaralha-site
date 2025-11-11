@@ -81,6 +81,41 @@ document.addEventListener('DOMContentLoaded', () => {
     updateCartDisplayFallback();
   }
   
+  // Animação de contadores
+  const animateCounters = () => {
+    const counters = document.querySelectorAll('.stat-value[data-target]');
+    counters.forEach(counter => {
+      const target = parseInt(counter.getAttribute('data-target'));
+      const duration = 2000;
+      const increment = target / (duration / 16);
+      let current = 0;
+      
+      const updateCounter = () => {
+        current += increment;
+        if (current < target) {
+          counter.textContent = Math.floor(current);
+          requestAnimationFrame(updateCounter);
+        } else {
+          counter.textContent = target;
+        }
+      };
+      
+      // Iniciar quando visível
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            updateCounter();
+            observer.unobserve(entry.target);
+          }
+        });
+      });
+      
+      observer.observe(counter);
+    });
+  };
+  
+  animateCounters();
+  
   // Verificar token na URL (retorno do Steam)
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get('token');
