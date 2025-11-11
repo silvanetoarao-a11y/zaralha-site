@@ -2,11 +2,54 @@
 
 ## Pré-requisitos
 
+**Windows:**
+- Windows 10/11 ou Windows Server 2016+
+- Node.js 16+ instalado
+- Acesso de Administrador
+- PowerShell
+
+**Linux/Mac:**
 - Node.js 16+ instalado
 - Servidor Rust com Oxide/uMod instalado
 - Steam API Key (opcional, para login Steam)
 
+## Instalação Rápida Windows
+
+Para instalação completa com domínio e SSL no Windows, veja:
+- **WINDOWS-SETUP.md** - Guia completo
+- **WINDOWS-QUICKSTART.md** - Guia rápido
+
+Ou execute o script automatizado:
+```powershell
+powershell -ExecutionPolicy Bypass -File install-windows.ps1 -Domain "seu-dominio.com" -Email "seu-email@exemplo.com" -ServerIP "IP_DO_SERVIDOR"
+```
+
 ## Instalação do Backend
+
+### Windows
+
+1. Abra PowerShell e navegue até a pasta backend:
+```powershell
+cd backend
+```
+
+2. Instale as dependências:
+```powershell
+npm install
+```
+
+3. Configure as variáveis de ambiente:
+```powershell
+Copy-Item .env.example .env
+# Edite o arquivo .env com suas configurações
+```
+
+4. Inicie o servidor:
+```powershell
+npm start
+```
+
+### Linux/Mac
 
 1. Navegue até a pasta backend:
 ```bash
@@ -33,7 +76,34 @@ O servidor estará rodando em `http://localhost:5000`
 
 ## Instalação do Site
 
-### Opção 1: Usando Node.js (Recomendado)
+### Windows
+
+#### Opção 1: Usando Node.js (Recomendado)
+
+1. Navegue até a pasta site:
+```powershell
+cd site
+```
+
+2. Instale as dependências:
+```powershell
+npm install
+```
+
+3. Inicie o servidor:
+```powershell
+npm start
+```
+
+4. Acesse `http://localhost:8080`
+
+#### Opção 2: Usando IIS
+
+Veja **IIS-SETUP.md** para instruções completas.
+
+### Linux/Mac
+
+#### Opção 1: Usando Node.js (Recomendado)
 
 1. Navegue até a pasta site:
 ```bash
@@ -52,7 +122,7 @@ npm start
 
 4. Acesse `http://localhost:8080`
 
-### Opção 2: Usando Python
+#### Opção 2: Usando Python
 
 1. Navegue até a pasta site:
 ```bash

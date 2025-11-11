@@ -51,15 +51,27 @@ Sistema completo para servidores de jogos com loja integrada, autenticação Ste
 
 ### Desenvolvimento Local
 
-**Backend:**
-```bash
+**Windows:**
+```powershell
+# Backend
 cd backend
+npm install
+npm start
+
+# Site
+cd site
 npm install
 npm start
 ```
 
-**Site:**
+**Linux/Mac:**
 ```bash
+# Backend
+cd backend
+npm install
+npm start
+
+# Site
 cd site
 npm install
 npm start
@@ -67,12 +79,18 @@ npm start
 
 ### Produção com Domínio e SSL
 
-Veja os guias completos:
-- **SSL-GUIDE.md** - Configuração de domínio e SSL
-- **PRODUCTION-SETUP.md** - Setup completo de produção
-- **DNS-SETUP.md** - Configuração DNS
+**Windows:**
+Veja **WINDOWS-SETUP.md** para guia completo.
 
-**Instalação rápida:**
+Instalação rápida:
+```powershell
+powershell -ExecutionPolicy Bypass -File install-windows.ps1 -Domain "seu-dominio.com" -Email "seu-email@exemplo.com" -ServerIP "IP_DO_SERVIDOR"
+```
+
+**Linux:**
+Veja **PRODUCTION-SETUP.md** para guia completo.
+
+Instalação rápida:
 ```bash
 sudo bash setup-ssl.sh
 ```
