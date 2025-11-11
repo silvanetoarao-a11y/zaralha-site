@@ -59,7 +59,7 @@ O plugin agora usa configuração via JSON. Edite `oxide/config/ShopIntegration.
 
 ```json
 {
-  "ApiUrl": "http://seu-servidor:3000/api",
+  "ApiUrl": "http://seu-servidor:5000/api",
   "ApiKey": "RUST_PLUGIN_KEY",
   "CheckInterval": 30.0,
   "DebugMode": false,

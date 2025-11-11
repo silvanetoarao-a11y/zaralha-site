@@ -18,7 +18,7 @@ namespace Oxide.Plugins
         
         private class Configuration
         {
-            public string ApiUrl { get; set; } = "http://localhost:3000/api";
+            public string ApiUrl { get; set; } = "http://localhost:5000/api";
             public string ApiKey { get; set; } = "RUST_PLUGIN_KEY";
             public float CheckInterval { get; set; } = 30f;
             public bool DebugMode { get; set; } = false;

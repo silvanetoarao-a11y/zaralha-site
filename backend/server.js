@@ -9,7 +9,7 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
 app.use(cors());
@@ -90,8 +90,8 @@ db.serialize(() => {
 
 // Passport Steam Strategy
 passport.use(new SteamStrategy({
-  returnURL: 'http://localhost:3000/api/auth/steam/return',
-  realm: 'http://localhost:3000/',
+  returnURL: 'http://localhost:5000/api/auth/steam/return',
+  realm: 'http://localhost:5000/',
   apiKey: process.env.STEAM_API_KEY || 'YOUR_STEAM_API_KEY'
 }, (identifier, profile, done) => {
   const steamId = identifier.split('/').pop();

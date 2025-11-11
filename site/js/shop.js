@@ -1,5 +1,5 @@
 // Sistema de loja
-const API_URL = window.API_URL || 'http://localhost:3000/api';
+const API_URL = window.API_URL || 'http://localhost:5000/api';
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 

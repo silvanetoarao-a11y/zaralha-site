@@ -29,7 +29,7 @@ cp .env.example .env
 npm start
 ```
 
-O servidor estará rodando em `http://localhost:3000`
+O servidor estará rodando em `http://localhost:5000`
 
 ## Instalação do Site
 
@@ -50,7 +50,7 @@ npx http-server -p 8080
 
 **IMPORTANTE:** Atualize a URL da API no arquivo `site/index.html`:
 ```javascript
-window.API_URL = 'http://localhost:3000/api';
+window.API_URL = 'http://localhost:5000/api';
 ```
 
 ## Instalação do Plugin Rust
@@ -70,7 +70,7 @@ servidor_rust/oxide/config/ShopIntegration.json
 4. Edite o arquivo de configuração `ShopIntegration.json`:
 ```json
 {
-  "API_URL": "http://seu-servidor-backend:3000/api",
+  "API_URL": "http://seu-servidor-backend:5000/api",
   "API_KEY": "RUST_PLUGIN_KEY",
   "CheckInterval": 30
 }
@@ -105,7 +105,7 @@ STEAM_API_KEY=sua-api-key-aqui
 ## Troubleshooting
 
 ### Backend não inicia
-- Verifique se a porta 3000 está livre
+- Verifique se a porta 5000 está livre
 - Verifique se todas as dependências foram instaladas
 
 ### Plugin não funciona

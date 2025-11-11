@@ -52,7 +52,7 @@ npm install
 npm start
 ```
 
-A API estará rodando em `http://localhost:3000`
+A API estará rodando em `http://localhost:5000`
 
 ### Site
 
@@ -79,7 +79,7 @@ Acesse `http://localhost:8080`
 Crie um arquivo `.env`:
 
 ```
-PORT=3000
+PORT=5000
 JWT_SECRET=seu-secret-key-aqui
 STEAM_API_KEY=sua-steam-api-key
 RUST_API_KEY=RUST_PLUGIN_KEY
@@ -97,7 +97,7 @@ Edite `oxide/config/ShopIntegration.json`:
 
 ```json
 {
-  "API_URL": "http://seu-servidor:3000/api",
+  "API_URL": "http://seu-servidor:5000/api",
   "API_KEY": "RUST_PLUGIN_KEY",
   "CheckInterval": 30
 }
