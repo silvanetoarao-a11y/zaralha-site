@@ -1,6 +1,6 @@
-# GameServers - Sistema Completo
+# ZARALHA SERVERS - Sistema Completo
 
-Sistema completo para servidores de jogos com loja integrada, autenticação Steam/Email e plugin Rust.
+Sistema completo para servidores de jogos com loja integrada, autenticação Steam/Email, plugin Rust e domínio próprio com SSL.
 
 ## Estrutura do Projeto
 
@@ -13,20 +13,23 @@ Sistema completo para servidores de jogos com loja integrada, autenticação Ste
 ├── backend/          # API Node.js/Express
 │   ├── server.js     # Servidor principal
 │   └── package.json  # Dependências
-└── plugin/           # Plugin Rust (Oxide/uMod)
-    ├── ShopIntegration.cs
-    └── ShopIntegration.json
+├── plugin/           # Plugin Rust (Oxide/uMod)
+│   ├── ShopIntegration.cs
+│   └── ShopIntegration.json
+└── nginx/            # Configuração Nginx
+    └── zaralha-servers.conf
 ```
 
 ## Funcionalidades
 
 ### Site
+- ✅ Design futurista e profissional
 - ✅ Sistema de tradução (PT-BR, EN, ES, RU)
 - ✅ Autenticação Steam e Email
-- ✅ Loja com produtos por jogo (Rust, Minecraft, DayZ)
+- ✅ Loja com abas separadas (Rust, Minecraft, DayZ)
 - ✅ Carrinho de compras
-- ✅ Páginas: Home, Loja, Downloads, Sobre
-- ✅ Design moderno com tema neon/glassmorphism
+- ✅ Painel administrativo
+- ✅ Responsivo e otimizado
 
 ### Backend API
 - ✅ Autenticação JWT
@@ -35,50 +38,44 @@ Sistema completo para servidores de jogos com loja integrada, autenticação Ste
 - ✅ CRUD de produtos
 - ✅ Sistema de compras
 - ✅ Endpoints para plugin Rust
+- ✅ Suporte a HTTPS
 
 ### Plugin Rust
 - ✅ Verifica entregas pendentes automaticamente
 - ✅ Entrega itens diretamente no inventário
 - ✅ Validação por Steam ID
-- ✅ Marca entregas como concluídas na API
+- ✅ Sistema de conexão robusto
+- ✅ Comandos admin (/shopstatus, /shopreload)
 
 ## Instalação
 
-### Backend
+### Desenvolvimento Local
 
+**Backend:**
 ```bash
 cd backend
 npm install
 npm start
 ```
 
-A API estará rodando em `http://localhost:5000`
-
-### Site
-
-**Opção 1: Usando Node.js (Recomendado)**
-
+**Site:**
 ```bash
 cd site
 npm install
 npm start
 ```
 
-**Opção 2: Usando Python**
+### Produção com Domínio e SSL
 
+Veja os guias completos:
+- **SSL-GUIDE.md** - Configuração de domínio e SSL
+- **PRODUCTION-SETUP.md** - Setup completo de produção
+- **DNS-SETUP.md** - Configuração DNS
+
+**Instalação rápida:**
 ```bash
-cd site
-python -m http.server 8080
+sudo bash setup-ssl.sh
 ```
-
-Acesse `http://localhost:8080`
-
-### Plugin Rust
-
-1. Copie `ShopIntegration.cs` para `oxide/plugins/`
-2. Copie `ShopIntegration.json` para `oxide/config/`
-3. Configure a URL da API e API Key no arquivo de configuração
-4. Reinicie o servidor ou digite `oxide.reload ShopIntegration`
 
 ## Configuração
 
@@ -91,13 +88,9 @@ PORT=5000
 JWT_SECRET=seu-secret-key-aqui
 STEAM_API_KEY=sua-steam-api-key
 RUST_API_KEY=RUST_PLUGIN_KEY
+FRONTEND_URL=https://seu-dominio.com
+NODE_ENV=production
 ```
-
-### Steam API Key
-
-1. Acesse https://steamcommunity.com/dev/apikey
-2. Registre uma nova API Key
-3. Adicione ao `.env`
 
 ### Plugin Rust
 
@@ -105,59 +98,35 @@ Edite `oxide/config/ShopIntegration.json`:
 
 ```json
 {
-  "API_URL": "http://seu-servidor:5000/api",
-  "API_KEY": "RUST_PLUGIN_KEY",
-  "CheckInterval": 30
+  "ApiUrl": "https://seu-dominio.com/api",
+  "ApiKey": "RUST_PLUGIN_KEY",
+  "CheckInterval": 30.0
 }
 ```
 
-## Uso
-
-### Como funciona o fluxo de compra:
-
-1. Usuário faz login no site (Steam ou Email)
-2. Adiciona produtos ao carrinho
-3. Finaliza compra (requer Steam ID para Rust)
-4. Backend processa pagamento (simulado)
-5. Compra fica com status "confirmed"
-6. Plugin Rust verifica entregas pendentes a cada 30s
-7. Plugin entrega item ao jogador online
-8. Plugin marca entrega como concluída
-
-### Adicionar Produtos
-
-Os produtos são armazenados no banco SQLite. Exemplo:
-
-```sql
-INSERT INTO products (id, name, description, price, game, category, itemId, quantity) 
-VALUES ('rust_ak47', 'AK-47', 'Rifle AK-47', 50.00, 'rust', 'weapons', 'rifle.ak', 1);
-```
-
-### Item IDs do Rust
-
-Use os nomes de item do Rust. Exemplos:
-- `rifle.ak` - AK-47
-- `rocket.launcher` - Lançador de Foguetes
-- `wood` - Madeira
-- `stone` - Pedra
-- `scrap` - Sucata
-
 ## Segurança
 
+- ✅ HTTPS obrigatório
+- ✅ Certificado SSL gratuito (Let's Encrypt)
+- ✅ Headers de segurança configurados
+- ✅ CORS configurado corretamente
 - ✅ Tokens JWT para autenticação
 - ✅ Senhas hash com bcrypt
 - ✅ API Key para comunicação plugin-backend
-- ✅ Validação de Steam ID antes de entregar
 
-## Notas
+## Documentação
 
-- O sistema de pagamento está simulado. Integre com um gateway real (Mercado Pago, Stripe, etc.)
-- O plugin precisa que o jogador esteja online para receber itens
-- Steam ID é obrigatório para compras de Rust
-- O banco de dados SQLite é criado automaticamente
+- **README.md** - Este arquivo
+- **INSTALL.md** - Instalação detalhada
+- **PRODUCTION-SETUP.md** - Setup de produção
+- **SSL-GUIDE.md** - Guia de SSL
+- **DNS-SETUP.md** - Configuração DNS
+- **QUICKSTART.md** - Guia rápido
+- **CHANGELOG.md** - Histórico de mudanças
 
 ## Suporte
 
 Para problemas ou dúvidas, verifique os logs:
-- Backend: console do Node.js
+- Backend: `pm2 logs zaralha-api`
+- Nginx: `/var/log/nginx/zaralha-error.log`
 - Plugin: `oxide/logs/ShopIntegration.log`

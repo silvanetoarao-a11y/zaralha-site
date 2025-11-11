@@ -12,7 +12,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:8080',
+  credentials: true
+}));
 app.use(express.json());
 app.use(passport.initialize());
 
@@ -89,9 +92,12 @@ db.serialize(() => {
 });
 
 // Passport Steam Strategy
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:8080';
+const API_URL = process.env.API_URL || 'http://localhost:5000/api';
+
 passport.use(new SteamStrategy({
-  returnURL: 'http://localhost:5000/api/auth/steam/return',
-  realm: 'http://localhost:5000/',
+  returnURL: `${API_URL}/auth/steam/return`,
+  realm: process.env.FRONTEND_URL || 'http://localhost:5000/',
   apiKey: process.env.STEAM_API_KEY || 'YOUR_STEAM_API_KEY'
 }, (identifier, profile, done) => {
   const steamId = identifier.split('/').pop();
@@ -171,14 +177,14 @@ app.get('/api/auth/steam', passport.authenticate('steam', { session: false }));
 
 app.get('/api/auth/steam/return', passport.authenticate('steam', { session: false }), (req, res) => {
   if (!req.user) {
-    return res.redirect('http://localhost:8080/?error=steam_auth_failed');
+      return res.redirect(`${FRONTEND_URL}/?error=steam_auth_failed`);
   }
   
   const { steamId, profile } = req.user;
   
   db.get('SELECT * FROM users WHERE steamId = ?', [steamId], (err, user) => {
     if (err) {
-      return res.redirect('http://localhost:8080/?error=database_error');
+      return res.redirect(`${FRONTEND_URL}/?error=database_error`);
     }
     
     if (user) {
@@ -186,7 +192,7 @@ app.get('/api/auth/steam/return', passport.authenticate('steam', { session: fals
         { id: user.id, email: user.email, username: user.username, steamId: user.steamId },
         JWT_SECRET
       );
-      res.redirect(`http://localhost:8080/?token=${token}`);
+      res.redirect(`${FRONTEND_URL}/?token=${token}`);
     } else {
       // Criar novo usuário com Steam
       db.run(
@@ -194,14 +200,14 @@ app.get('/api/auth/steam/return', passport.authenticate('steam', { session: fals
         [profile.displayName || `Steam_${steamId}`, steamId],
         function(err) {
           if (err) {
-            return res.redirect('http://localhost:8080/?error=create_user_failed');
+            return res.redirect(`${FRONTEND_URL}/?error=create_user_failed`);
           }
           
           const token = jwt.sign(
             { id: this.lastID, username: profile.displayName || `Steam_${steamId}`, steamId },
             JWT_SECRET
           );
-          res.redirect(`http://localhost:8080/?token=${token}`);
+          res.redirect(`${FRONTEND_URL}/?token=${token}`);
         }
       );
     }
