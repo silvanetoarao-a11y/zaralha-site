@@ -64,15 +64,37 @@
     <section id="shop">
       <div class="container">
         <h2 class="section-title" data-i18n="shop.title">Loja</h2>
-        <div style="margin-bottom:20px;">
-          <select id="gameFilter" style="background:var(--card); border:1px solid var(--border); color:var(--text); padding:12px 18px; border-radius:12px; font-size:16px;">
-            <option value="rust" data-i18n="shop.rust">Rust</option>
-            <option value="minecraft" data-i18n="shop.minecraft">Minecraft</option>
-            <option value="dayz" data-i18n="shop.dayz">DayZ</option>
-          </select>
+        
+        <!-- Abas da Loja -->
+        <div class="shop-tabs">
+          <button class="shop-tab active" data-game="rust" onclick="switchShopTab('rust', event)">
+            <span>🎮</span> <span data-i18n="shop.rust">Rust</span>
+          </button>
+          <button class="shop-tab" data-game="minecraft" onclick="switchShopTab('minecraft', event)">
+            <span>⛏️</span> <span data-i18n="shop.minecraft">Minecraft</span>
+          </button>
+          <button class="shop-tab" data-game="dayz" onclick="switchShopTab('dayz', event)">
+            <span>🧟</span> <span data-i18n="shop.dayz">DayZ</span>
+          </button>
         </div>
-        <div id="productsContainer" class="grid grid-3">
-          <!-- Produtos serão carregados aqui -->
+        
+        <!-- Conteúdo das Abas -->
+        <div id="shopTabContent">
+          <div class="shop-tab-panel active" id="shop-rust">
+            <div id="productsContainer-rust" class="grid grid-3">
+              <!-- Produtos Rust serão carregados aqui -->
+            </div>
+          </div>
+          <div class="shop-tab-panel" id="shop-minecraft">
+            <div id="productsContainer-minecraft" class="grid grid-3">
+              <!-- Produtos Minecraft serão carregados aqui -->
+            </div>
+          </div>
+          <div class="shop-tab-panel" id="shop-dayz">
+            <div id="productsContainer-dayz" class="grid grid-3">
+              <!-- Produtos DayZ serão carregados aqui -->
+            </div>
+          </div>
         </div>
         
         <!-- Carrinho -->

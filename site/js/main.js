@@ -41,21 +41,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
-  // Carregar produtos
-  if (typeof loadProducts === 'function') {
-    loadProducts('rust');
-  }
-  
+  // Carregar produtos (será feito pelo shop.js)
   // Atualizar carrinho
   updateCartDisplay();
-  
-  // Listener para mudança de jogo
-  const gameFilter = document.getElementById('gameFilter');
-  if (gameFilter && typeof loadProducts === 'function') {
-    gameFilter.addEventListener('change', (e) => {
-      loadProducts(e.target.value);
-    });
-  }
   
   // Verificar token na URL (retorno do Steam)
   const urlParams = new URLSearchParams(window.location.search);

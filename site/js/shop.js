@@ -3,19 +3,58 @@ const API_URL = window.API_URL || 'http://localhost:5000/api';
 
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
+// Variável para controlar a aba atual
+let currentShopTab = 'rust';
+
+// Armazenar produtos carregados
+let loadedProducts = {};
+
+// Trocar aba da loja
+function switchShopTab(game, event) {
+  if (event) {
+    event.preventDefault();
+    event.stopPropagation();
+  }
+  
+  currentShopTab = game;
+  
+  // Atualizar abas visuais
+  document.querySelectorAll('.shop-tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  document.querySelector(`.shop-tab[data-game="${game}"]`).classList.add('active');
+  
+  // Atualizar painéis
+  document.querySelectorAll('.shop-tab-panel').forEach(panel => {
+    panel.classList.remove('active');
+  });
+  document.getElementById(`shop-${game}`).classList.add('active');
+  
+  // Carregar produtos da aba selecionada
+  loadProducts(game);
+}
+
 // Carregar produtos
 async function loadProducts(game = 'rust') {
+  const containerId = `productsContainer-${game}`;
+  const container = document.getElementById(containerId);
+  
+  if (!container) {
+    console.error(`Container não encontrado: ${containerId}`);
+    return;
+  }
+  
   try {
     const response = await fetch(`${API_URL}/shop/products?game=${game}`);
     if (!response.ok) {
       throw new Error('Erro ao carregar produtos');
     }
     const products = await response.json();
-    displayProducts(products);
+    displayProducts(products, game);
   } catch (error) {
     console.error('Error loading products:', error);
     // Fallback para produtos mock se API não estiver disponível
-    displayProducts(getMockProducts(game));
+    displayProducts(getMockProducts(game), game);
   }
 }
 
@@ -42,9 +81,21 @@ function getMockProducts(game) {
 }
 
 // Exibir produtos
-function displayProducts(products) {
-  const container = document.getElementById('productsContainer');
+function displayProducts(products, game) {
+  const containerId = `productsContainer-${game}`;
+  const container = document.getElementById(containerId);
   if (!container) return;
+  
+  loadedProducts[game] = products;
+  
+  if (products.length === 0) {
+    container.innerHTML = `
+      <div class="card" style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+        <p class="muted">Nenhum produto disponível para ${game} no momento.</p>
+      </div>
+    `;
+    return;
+  }
   
   container.innerHTML = products.map(product => `
     <div class="card product-card">
@@ -75,14 +126,11 @@ function addToCart(productId) {
     return;
   }
   
-  const gameFilter = document.getElementById('gameFilter');
-  const currentGame = gameFilter ? gameFilter.value : 'rust';
-  
   cart.push({
     id: productId,
     name: product.name,
     price: product.price,
-    game: currentGame
+    game: currentShopTab
   });
   
   localStorage.setItem('cart', JSON.stringify(cart));
@@ -182,28 +230,6 @@ function getProductById(id) {
   return null;
 }
 
-// Atualizar função displayProducts para armazenar produtos
-function displayProducts(products) {
-  const container = document.getElementById('productsContainer');
-  if (!container) return;
-  
-  const gameFilter = document.getElementById('gameFilter');
-  const currentGame = gameFilter ? gameFilter.value : 'rust';
-  loadedProducts[currentGame] = products;
-  
-  container.innerHTML = products.map(product => `
-    <div class="card product-card">
-      <h3>${product.name}</h3>
-      <p class="muted">${product.description || ''}</p>
-      <div class="price">${formatPrice(product.price)}</div>
-      <div class="tag">${product.category}</div>
-      <button class="btn btn-primary" onclick="addToCart('${product.id}')">
-        ${t('shop.addToCart')}
-      </button>
-    </div>
-  `).join('');
-}
-
 // Formatar preço
 function formatPrice(price) {
   return new Intl.NumberFormat(currentLang, {
@@ -239,10 +265,8 @@ function showNotification(message) {
 // Inicializar
 document.addEventListener('DOMContentLoaded', () => {
   updateCartUI();
-  const gameFilter = document.getElementById('gameFilter');
-  if (gameFilter) {
-    gameFilter.addEventListener('change', (e) => {
-      loadProducts(e.target.value);
-    });
-  }
+  // Carregar produtos da aba padrão (Rust)
+  loadProducts('rust');
+  loadProducts('minecraft');
+  loadProducts('dayz');
 });

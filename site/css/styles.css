@@ -106,9 +106,79 @@ footer{ padding:40px 0; color:var(--muted); border-top:1px solid var(--border); 
   to { transform: translateX(100%); opacity: 0; }
 }
 
+/* Abas da Loja */
+.shop-tabs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 0;
+}
+
+.shop-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--muted);
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  bottom: -2px;
+}
+
+.shop-tab:hover {
+  color: var(--text);
+  background: rgba(255,255,255,.05);
+}
+
+.shop-tab.active {
+  color: var(--neon-2);
+  border-bottom-color: var(--neon-2);
+  background: rgba(34,211,238,.1);
+}
+
+.shop-tab span:first-child {
+  font-size: 20px;
+}
+
+.shop-tab-panel {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.shop-tab-panel.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 980px){ .grid-3{ grid-template-columns:1fr 1fr } }
 @media (max-width: 680px){ 
   .grid-3, .grid-2{ grid-template-columns:1fr } 
   .menu{ display:none } 
-  .hamb{ display:inline-block } 
+  .hamb{ display:inline-block }
+  .shop-tabs {
+    flex-direction: column;
+    gap: 8px;
+  }
+  .shop-tab {
+    width: 100%;
+    justify-content: center;
+  }
 }
