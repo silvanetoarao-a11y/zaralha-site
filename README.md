@@ -56,7 +56,15 @@ A API estará rodando em `http://localhost:5000`
 
 ### Site
 
-Abra `site/index.html` em um servidor web ou use:
+**Opção 1: Usando Node.js (Recomendado)**
+
+```bash
+cd site
+npm install
+npm start
+```
+
+**Opção 2: Usando Python**
 
 ```bash
 cd site

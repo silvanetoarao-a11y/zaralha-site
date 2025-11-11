@@ -33,20 +33,57 @@ O servidor estará rodando em `http://localhost:5000`
 
 ## Instalação do Site
 
-1. Navegue até a pasta site
-2. Use um servidor HTTP local:
+### Opção 1: Usando Node.js (Recomendado)
 
-**Com Python:**
+1. Navegue até a pasta site:
+```bash
+cd site
+```
+
+2. Instale as dependências:
+```bash
+npm install
+```
+
+3. Inicie o servidor:
+```bash
+npm start
+```
+
+4. Acesse `http://localhost:8080`
+
+### Opção 2: Usando Python
+
+1. Navegue até a pasta site:
+```bash
+cd site
+```
+
+2. Inicie o servidor:
 ```bash
 python -m http.server 8080
 ```
 
-**Com Node.js (http-server):**
+3. Acesse `http://localhost:8080`
+
+### Opção 3: Usando http-server (Node.js)
+
+1. Navegue até a pasta site:
 ```bash
-npx http-server -p 8080
+cd site
 ```
 
-3. Acesse `http://localhost:8080`
+2. Instale globalmente (se necessário):
+```bash
+npm install -g http-server
+```
+
+3. Inicie o servidor:
+```bash
+http-server -p 8080
+```
+
+4. Acesse `http://localhost:8080`
 
 **IMPORTANTE:** Atualize a URL da API no arquivo `site/index.html`:
 ```javascript
