@@ -98,13 +98,13 @@ function displayProducts(products, game) {
   }
   
   container.innerHTML = products.map(product => `
-    <div class="card product-card">
+    <div class="product-card">
       <h3>${product.name}</h3>
       <p class="muted">${product.description || ''}</p>
       <div class="price">${formatPrice(product.price)}</div>
       <div class="tag">${product.category}</div>
-      <button class="btn btn-primary" onclick="addToCart('${product.id}')">
-        ${t('shop.addToCart')}
+      <button class="btn-primary" onclick="addToCart('${product.id}')" style="width:100%; margin-top:15px;">
+        Adicionar ao Carrinho
       </button>
     </div>
   `).join('');

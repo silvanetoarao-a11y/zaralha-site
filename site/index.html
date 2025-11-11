@@ -3,199 +3,298 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title data-i18n="nav.home">Servidores de Jogos</title>
-  <meta name="description" content="Servidores de Rust, Minecraft e DayZ com loja integrada" />
+  <title>ZARALHA SERVERS - Rust, Minecraft, DayZ</title>
+  <meta name="description" content="ZARALHA SERVERS - Servidores premium de Rust, Minecraft e DayZ com loja integrada" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <script>
     window.API_URL = 'http://localhost:5000/api';
   </script>
 </head>
 <body>
-  <div class="backdrop"></div>
+  <!-- Background Effects -->
+  <div class="bg-pattern"></div>
+  <div class="bg-gradient"></div>
   
-  <header>
-    <div class="container nav">
-      <a class="brand" href="#home">
-        <div class="logo"></div>
-        <div class="name">GameServers</div>
-      </a>
-      <nav class="menu" aria-label="principal">
-        <a href="#home" data-i18n="nav.home">Início</a>
-        <a href="#shop" data-i18n="nav.shop">Loja</a>
-        <a href="#downloads" data-i18n="nav.downloads">Downloads</a>
-        <a href="#about" data-i18n="nav.about">Sobre</a>
-        <a href="#profile" id="profileBtn" style="display:none;" data-i18n="nav.profile">Perfil</a>
-        <a href="admin/" id="adminBtn" style="display:none;" class="btn btn-ghost">Admin</a>
-        <button class="btn btn-ghost" id="loginBtn" onclick="showLoginModal()" data-i18n="nav.login">Entrar</button>
-        <button class="btn btn-ghost" id="logoutBtn" onclick="logout()" style="display:none;" data-i18n="nav.logout">Sair</button>
-        <span id="userInfo" style="display:none; color:var(--text);"></span>
-        <select id="langSelect" onchange="setLanguage(this.value)" style="background:var(--card); border:1px solid var(--border); color:var(--text); padding:8px 12px; border-radius:8px;">
-          <option value="pt-BR">PT-BR</option>
-          <option value="en">EN</option>
-          <option value="es">ES</option>
-          <option value="ru">RU</option>
-        </select>
-        <span id="cartCount" style="display:none; background:var(--neon-1); color:white; padding:4px 8px; border-radius:50%; font-size:12px;">0</span>
-      </nav>
-      <button class="hamb" id="hamb" aria-label="Abrir menu">☰</button>
+  <!-- Header -->
+  <header class="main-header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo-section">
+          <div class="logo-icon">Z</div>
+          <div class="logo-text">
+            <span class="logo-name">ZARALHA</span>
+            <span class="logo-subtitle">SERVERS</span>
+          </div>
+        </div>
+        
+        <nav class="main-nav">
+          <a href="#home" class="nav-link active">Início</a>
+          <a href="#shop" class="nav-link">Loja</a>
+          <a href="#downloads" class="nav-link">Downloads</a>
+          <a href="#about" class="nav-link">Sobre</a>
+          <a href="#profile" id="profileBtn" class="nav-link" style="display:none;">Perfil</a>
+          <a href="admin/" id="adminBtn" class="nav-link admin-link" style="display:none;">Admin</a>
+        </nav>
+        
+        <div class="header-actions">
+          <select id="langSelect" class="lang-select" onchange="setLanguage(this.value)">
+            <option value="pt-BR">PT</option>
+            <option value="en">EN</option>
+            <option value="es">ES</option>
+            <option value="ru">RU</option>
+          </select>
+          <span id="cartCount" class="cart-badge" style="display:none;">0</span>
+          <button class="btn-login" id="loginBtn" onclick="showLoginModal()">Entrar</button>
+          <button class="btn-logout" id="logoutBtn" onclick="logout()" style="display:none;">Sair</button>
+          <span id="userInfo" class="user-info" style="display:none;"></span>
+        </div>
+        
+        <button class="mobile-menu-toggle" id="mobileMenuToggle">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
     </div>
   </header>
 
   <main>
-    <!-- HOME -->
-    <section id="home" class="hero">
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
       <div class="container">
-        <div class="badge">🎮 <span data-i18n="home.subtitle">Rust, Minecraft e DayZ</span></div>
-        <h1 data-i18n="home.title">Bem-vindo aos Nossos Servidores</h1>
-        <p class="muted" data-i18n="home.description">Junte-se à nossa comunidade e aproveite a melhor experiência de jogo</p>
-        <div class="hero-cta">
-          <a class="btn btn-primary" href="#shop" data-i18n="nav.shop">Loja</a>
-          <a class="btn btn-ghost" href="#downloads" data-i18n="nav.downloads">Downloads</a>
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="badge-icon">🎮</span>
+            <span>Rust • Minecraft • DayZ</span>
+          </div>
+          <h1 class="hero-title">
+            <span class="title-highlight">ZARALHA</span> SERVERS
+          </h1>
+          <p class="hero-description">
+            Servidores premium com performance máxima, plugins customizados e comunidade ativa. 
+            Junte-se à melhor experiência de jogo.
+          </p>
+          <div class="hero-actions">
+            <a href="#shop" class="btn-primary">Ver Loja</a>
+            <a href="#downloads" class="btn-secondary">Downloads</a>
+          </div>
+          
+          <!-- Server Stats -->
+          <div class="server-stats">
+            <div class="stat-item">
+              <div class="stat-value">3</div>
+              <div class="stat-label">Servidores</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">24/7</div>
+              <div class="stat-label">Online</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-value">1000+</div>
+              <div class="stat-label">Jogadores</div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <div class="glow"></div>
-
-    <!-- LOJA -->
-    <section id="shop">
+    <!-- Shop Section -->
+    <section id="shop" class="shop-section">
       <div class="container">
-        <h2 class="section-title" data-i18n="shop.title">Loja</h2>
+        <div class="section-header">
+          <h2 class="section-title">Loja</h2>
+          <p class="section-subtitle">Compre itens e kits para seus jogos favoritos</p>
+        </div>
         
-        <!-- Abas da Loja -->
+        <!-- Shop Tabs -->
         <div class="shop-tabs">
           <button class="shop-tab active" data-game="rust" onclick="switchShopTab('rust', event)">
-            <span>🎮</span> <span data-i18n="shop.rust">Rust</span>
+            <span class="tab-icon">🎮</span>
+            <span class="tab-text">Rust</span>
           </button>
           <button class="shop-tab" data-game="minecraft" onclick="switchShopTab('minecraft', event)">
-            <span>⛏️</span> <span data-i18n="shop.minecraft">Minecraft</span>
+            <span class="tab-icon">⛏️</span>
+            <span class="tab-text">Minecraft</span>
           </button>
           <button class="shop-tab" data-game="dayz" onclick="switchShopTab('dayz', event)">
-            <span>🧟</span> <span data-i18n="shop.dayz">DayZ</span>
+            <span class="tab-icon">🧟</span>
+            <span class="tab-text">DayZ</span>
           </button>
         </div>
         
-        <!-- Conteúdo das Abas -->
+        <!-- Shop Content -->
         <div id="shopTabContent">
           <div class="shop-tab-panel active" id="shop-rust">
-            <div id="productsContainer-rust" class="grid grid-3">
+            <div id="productsContainer-rust" class="products-grid">
               <!-- Produtos Rust serão carregados aqui -->
             </div>
           </div>
           <div class="shop-tab-panel" id="shop-minecraft">
-            <div id="productsContainer-minecraft" class="grid grid-3">
+            <div id="productsContainer-minecraft" class="products-grid">
               <!-- Produtos Minecraft serão carregados aqui -->
             </div>
           </div>
           <div class="shop-tab-panel" id="shop-dayz">
-            <div id="productsContainer-dayz" class="grid grid-3">
+            <div id="productsContainer-dayz" class="products-grid">
               <!-- Produtos DayZ serão carregados aqui -->
             </div>
           </div>
         </div>
         
-        <!-- Carrinho -->
-        <div class="card" style="margin-top:40px;">
-          <h3 data-i18n="shop.cart">Carrinho</h3>
-          <div id="cartItems"></div>
-          <div style="margin-top:20px; display:flex; justify-content:space-between; align-items:center;">
-            <div>
-              <strong data-i18n="shop.total">Total:</strong> <span id="cartTotal">R$ 0,00</span>
+        <!-- Cart -->
+        <div class="cart-section">
+          <div class="cart-header">
+            <h3>Carrinho</h3>
+            <span class="cart-count" id="cartCountBadge">0 itens</span>
+          </div>
+          <div id="cartItems" class="cart-items"></div>
+          <div class="cart-footer">
+            <div class="cart-total">
+              <span>Total:</span>
+              <span class="total-price" id="cartTotal">R$ 0,00</span>
             </div>
-            <button class="btn btn-primary" onclick="checkout()" data-i18n="shop.checkout">Finalizar Compra</button>
+            <button class="btn-checkout" onclick="checkout()">Finalizar Compra</button>
           </div>
         </div>
       </div>
     </section>
 
-    <div class="glow"></div>
-
-    <!-- DOWNLOADS -->
-    <section id="downloads">
+    <!-- Downloads Section -->
+    <section id="downloads" class="downloads-section">
       <div class="container">
-        <h2 class="section-title" data-i18n="downloads.title">Downloads</h2>
-        <div class="grid grid-3">
-          <article class="card">
-            <h3 data-i18n="downloads.rust">Rust</h3>
-            <p class="muted" data-i18n="downloads.description">Baixe os arquivos necessários para jogar em nossos servidores</p>
-            <button class="btn btn-ghost" onclick="downloadFile('rust')" data-i18n="nav.downloads">Baixar</button>
-          </article>
-          <article class="card">
-            <h3 data-i18n="downloads.minecraft">Minecraft</h3>
-            <p class="muted" data-i18n="downloads.description">Baixe os arquivos necessários para jogar em nossos servidores</p>
-            <button class="btn btn-ghost" onclick="downloadFile('minecraft')" data-i18n="nav.downloads">Baixar</button>
-          </article>
-          <article class="card">
-            <h3 data-i18n="downloads.dayz">DayZ</h3>
-            <p class="muted" data-i18n="downloads.description">Baixe os arquivos necessários para jogar em nossos servidores</p>
-            <button class="btn btn-ghost" onclick="downloadFile('dayz')" data-i18n="nav.downloads">Baixar</button>
-          </article>
+        <div class="section-header">
+          <h2 class="section-title">Downloads</h2>
+          <p class="section-subtitle">Baixe os arquivos necessários para jogar</p>
+        </div>
+        <div class="downloads-grid">
+          <div class="download-card">
+            <div class="download-icon">🎮</div>
+            <h3>Rust</h3>
+            <p>Configurações e mods do servidor</p>
+            <button class="btn-download" onclick="downloadFile('rust')">Baixar</button>
+          </div>
+          <div class="download-card">
+            <div class="download-icon">⛏️</div>
+            <h3>Minecraft</h3>
+            <p>Modpack e configurações</p>
+            <button class="btn-download" onclick="downloadFile('minecraft')">Baixar</button>
+          </div>
+          <div class="download-card">
+            <div class="download-icon">🧟</div>
+            <h3>DayZ</h3>
+            <p>Mods e configurações do servidor</p>
+            <button class="btn-download" onclick="downloadFile('dayz')">Baixar</button>
+          </div>
         </div>
       </div>
     </section>
 
-    <div class="glow"></div>
-
-    <!-- SOBRE -->
-    <section id="about">
+    <!-- About Section -->
+    <section id="about" class="about-section">
       <div class="container">
-        <h2 class="section-title" data-i18n="about.title">Sobre Nossos Servidores</h2>
-        <p class="muted" data-i18n="about.description">Informações sobre nossos servidores de Rust, Minecraft e DayZ</p>
-        <div class="grid grid-3" style="margin-top:18px;">
-          <article class="card">
-            <div class="icon">🎮</div>
-            <h3>Rust</h3>
-            <p class="muted">Servidor Rust com plugins customizados e sistema de loja integrado</p>
-          </article>
-          <article class="card">
-            <div class="icon">⛏️</div>
-            <h3>Minecraft</h3>
-            <p class="muted">Servidor Minecraft com mods e plugins para melhor experiência</p>
-          </article>
-          <article class="card">
-            <div class="icon">🧟</div>
-            <h3>DayZ</h3>
-            <p class="muted">Servidor DayZ com mods e configurações otimizadas</p>
-          </article>
+        <div class="section-header">
+          <h2 class="section-title">Sobre Nossos Servidores</h2>
+          <p class="section-subtitle">A melhor experiência de jogo que você pode ter</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Performance Máxima</h3>
+            <p>Servidores otimizados com hardware de última geração para garantir zero lag</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3>Anti-Cheat</h3>
+            <p>Sistema avançado de proteção contra trapaças e exploits</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🎯</div>
+            <h3>Plugins Customizados</h3>
+            <p>Plugins únicos desenvolvidos especialmente para nossos servidores</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">👥</div>
+            <h3>Comunidade Ativa</h3>
+            <p>Junte-se a milhares de jogadores em uma comunidade amigável</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔄</div>
+            <h3>Atualizações Constantes</h3>
+            <p>Servidores sempre atualizados com as últimas versões e correções</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💬</div>
+            <h3>Suporte 24/7</h3>
+            <p>Equipe de suporte disponível a qualquer momento para ajudar</p>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer>
-    <div class="container" style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
-      <span>&copy; <span id="year"></span> GameServers. Todos os direitos reservados.</span>
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="logo-section">
+            <div class="logo-icon">Z</div>
+            <div class="logo-text">
+              <span class="logo-name">ZARALHA</span>
+              <span class="logo-subtitle">SERVERS</span>
+            </div>
+          </div>
+          <p class="footer-description">Servidores premium de Rust, Minecraft e DayZ</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-column">
+            <h4>Servidores</h4>
+            <a href="#shop">Loja</a>
+            <a href="#downloads">Downloads</a>
+            <a href="#about">Sobre</a>
+          </div>
+          <div class="footer-column">
+            <h4>Suporte</h4>
+            <a href="#">Discord</a>
+            <a href="#">FAQ</a>
+            <a href="#">Contato</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> ZARALHA SERVERS. Todos os direitos reservados.</p>
+      </div>
     </div>
   </footer>
 
-  <!-- Modal de Login -->
+  <!-- Login Modal -->
   <div id="loginModal" class="modal" style="display:none;">
     <div class="modal-content">
-      <span class="close" onclick="closeLoginModal()">&times;</span>
-      <h2 data-i18n="auth.login">Entrar</h2>
-      <div style="display:flex; gap:12px; margin-bottom:20px;">
-        <button class="btn btn-primary" onclick="loginWithSteam()" style="flex:1;" data-i18n="auth.loginWithSteam">Steam</button>
-        <button class="btn btn-ghost" onclick="showEmailLogin()" style="flex:1;" data-i18n="auth.loginWithEmail">Email</button>
+      <span class="modal-close" onclick="closeLoginModal()">&times;</span>
+      <h2 class="modal-title">Entrar</h2>
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="showEmailLogin()">Email</button>
+        <button class="auth-tab" onclick="loginWithSteam()">Steam</button>
       </div>
-      <div id="emailLoginForm" style="display:none;">
-        <input type="email" id="loginEmail" placeholder="Email" data-i18n-placeholder="auth.email" style="width:100%; padding:12px; margin-bottom:12px; border-radius:12px; border:1px solid var(--border); background:rgba(0,0,0,.2); color:var(--text);">
-        <input type="password" id="loginPassword" placeholder="Senha" data-i18n-placeholder="auth.password" style="width:100%; padding:12px; margin-bottom:12px; border-radius:12px; border:1px solid var(--border); background:rgba(0,0,0,.2); color:var(--text);">
-        <button class="btn btn-primary" onclick="handleEmailLogin()" style="width:100%;" data-i18n="auth.login">Entrar</button>
-        <p style="margin-top:12px; text-align:center;">
-          <a href="#" onclick="showRegisterForm()" data-i18n="auth.noAccount">Não tem conta? Registrar</a>
+      <div id="emailLoginForm" class="auth-form">
+        <input type="email" id="loginEmail" placeholder="Email" class="form-input">
+        <input type="password" id="loginPassword" placeholder="Senha" class="form-input">
+        <button class="btn-primary" onclick="handleEmailLogin()" style="width:100%;">Entrar</button>
+        <p class="auth-link">
+          <a href="#" onclick="showRegisterForm()">Não tem conta? Registrar</a>
         </p>
       </div>
-      <div id="registerForm" style="display:none;">
-        <input type="text" id="registerUsername" placeholder="Nome de usuário" data-i18n-placeholder="auth.username" style="width:100%; padding:12px; margin-bottom:12px; border-radius:12px; border:1px solid var(--border); background:rgba(0,0,0,.2); color:var(--text);">
-        <input type="email" id="registerEmail" placeholder="Email" data-i18n-placeholder="auth.email" style="width:100%; padding:12px; margin-bottom:12px; border-radius:12px; border:1px solid var(--border); background:rgba(0,0,0,.2); color:var(--text);">
-        <input type="password" id="registerPassword" placeholder="Senha" data-i18n-placeholder="auth.password" style="width:100%; padding:12px; margin-bottom:12px; border-radius:12px; border:1px solid var(--border); background:rgba(0,0,0,.2); color:var(--text);">
-        <input type="text" id="registerSteamId" placeholder="Steam ID (opcional)" data-i18n-placeholder="auth.steamId" style="width:100%; padding:12px; margin-bottom:12px; border-radius:12px; border:1px solid var(--border); background:rgba(0,0,0,.2); color:var(--text);">
-        <button class="btn btn-primary" onclick="handleRegister()" style="width:100%;" data-i18n="auth.register">Registrar</button>
-        <p style="margin-top:12px; text-align:center;">
-          <a href="#" onclick="showEmailLogin()" data-i18n="auth.hasAccount">Já tem conta? Entrar</a>
+      <div id="registerForm" class="auth-form" style="display:none;">
+        <input type="text" id="registerUsername" placeholder="Nome de usuário" class="form-input">
+        <input type="email" id="registerEmail" placeholder="Email" class="form-input">
+        <input type="password" id="registerPassword" placeholder="Senha" class="form-input">
+        <input type="text" id="registerSteamId" placeholder="Steam ID (opcional)" class="form-input">
+        <button class="btn-primary" onclick="handleRegister()" style="width:100%;">Registrar</button>
+        <p class="auth-link">
+          <a href="#" onclick="showEmailLogin()">Já tem conta? Entrar</a>
         </p>
       </div>
     </div>
